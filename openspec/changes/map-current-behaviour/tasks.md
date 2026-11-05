@@ -57,7 +57,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 9. Input handling
 
-- [ ] 9.1 Write scenario tests for numbers, money and BUG-003, and verify they pass.
+- [x] 9.1 Write scenario tests for numbers, money and BUG-003, and verify they pass.
 - [ ] 9.2 Write scenario tests for yes/no answers, long text, pipes and input ending early, and verify all 23 input-handling scenarios pass.
 - [ ] 9.3 Make a throwaway copy stop replacing pipes and accept only upper case Y, and verify the input-handling tests fail.
 
