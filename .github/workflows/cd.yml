@@ -1,11 +1,15 @@
 # Simulated pipeline: nothing is deployed. Real releases follow docs/RELEASE.txt.
 # Approvals come from required reviewers on each GitHub environment. An environment
 # without them runs straight through, so set them up in the repository settings.
+#
+# A version tag starts this pipeline and every stage deploys that tag, so a merge on
+# its own deploys nothing. The merge-and-tag skill pushes the tag straight after the
+# merge. To deploy a tag again, run this workflow from that tag.
 name: CD
 
 on:
   push:
-    branches: [master]
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
@@ -15,7 +19,33 @@ concurrency:
   group: cd
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Check this is a described version on master
+        run: |
+          if [ "$GITHUB_REF_TYPE" != tag ]; then
+            echo "::error::Run CD from a version tag, not a branch."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "::error::$GITHUB_REF_NAME is not on master."
+            exit 1
+          fi
+          if [ "$(make -s version)" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::$GITHUB_REF_NAME does not match the version in the code."
+            exit 1
+          fi
+          # Checkout can turn an annotated tag into a plain one, so fetch the real tag.
+          git fetch --force origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+          git for-each-ref --format='%(contents)' "refs/tags/$GITHUB_REF_NAME" > "$RUNNER_TEMP/notes"
+          bash .github/scripts/check-tag-notes.sh "$GITHUB_REF_NAME" "$RUNNER_TEMP/notes"
+
   ci:
+    needs: verify
     uses: ./.github/workflows/ci.yml
 
   dev:
@@ -23,9 +53,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-      - name: Deploy to dev
+      - name: Deploy the tag to dev
         run: |
-          echo "Simulating deploy of $GITHUB_SHA to dev"
+          echo "Simulating deploy of $GITHUB_REF_NAME to dev"
           sleep 30
 
   test:
@@ -33,9 +63,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: test
     steps:
-      - name: Deploy to test
+      - name: Deploy the tag to test
         run: |
-          echo "Simulating deploy of $GITHUB_SHA to test"
+          echo "Simulating deploy of $GITHUB_REF_NAME to test"
           sleep 30
 
   qa:
@@ -43,9 +73,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: qa
     steps:
-      - name: Deploy to qa
+      - name: Deploy the tag to qa
         run: |
-          echo "Simulating deploy of $GITHUB_SHA to qa"
+          echo "Simulating deploy of $GITHUB_REF_NAME to qa"
           sleep 30
 
   prd:
@@ -53,25 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prd
     steps:
-      - name: Deploy to prd
+      - name: Deploy the tag to prd
         run: |
-          echo "Simulating deploy of $GITHUB_SHA to prd"
+          echo "Simulating deploy of $GITHUB_REF_NAME to prd"
           sleep 30
-
-  # Only a version approved through every stage gets a tag, so each tag is a safe
-  # rollback point. tag-guard.yml deletes any version tag that is not on master.
-  tag:
-    needs: prd
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - name: Tag the version that reached prd
-        run: |
-          version="$(make -s version)"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898276+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$version" -m "DealerDesk $version, approved through prd"
-          git push origin "refs/tags/$version"

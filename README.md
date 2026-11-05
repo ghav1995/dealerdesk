@@ -106,10 +106,13 @@ codebase.
 ## Release
 
 See [docs/RELEASE.txt](docs/RELEASE.txt). Releases are manual. The pipeline in
-[.github/workflows/cd.yml](.github/workflows/cd.yml) runs the tests and then
-simulates approved deploys to dev, test, qa and prd. It does not deploy anything.
+[.github/workflows/cd.yml](.github/workflows/cd.yml) starts from a version tag, runs
+the tests, then simulates approved deploys of that tag to dev, test, qa and prd. It
+does not deploy anything.
 
-A version approved through every stage is tagged on `master`, for example `v2.4`.
-Tags are the rollback points, and `docs/RELEASE.txt` explains how to use them.
+Each version is tagged on `master` straight after its pull request merges, for example
+`v2.4`, and the tag describes what changed. A tag does not prove a version reached
+prd, so check its CD run before rolling back to it.
+`docs/RELEASE.txt` explains how to use tags to roll back.
 
 Problems: ask Phil (ext. 214).

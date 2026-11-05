@@ -1,5 +1,6 @@
 # Simulated rollback: nothing is deployed. Real rollbacks follow docs/RELEASE.txt.
-# It goes straight to the prd approval, because a tag has already passed every stage.
+# It goes straight to the prd approval. A tag comes before its deploys, so the
+# approver must check that the version's CD run reached prd.
 name: Rollback
 
 on:

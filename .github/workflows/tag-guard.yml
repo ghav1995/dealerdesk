@@ -1,6 +1,6 @@
-# Deletes any version tag that is not on master. On a personal repository GitHub
-# cannot exempt the pipeline from a rule against creating tags, so tags are checked
-# as soon as they are pushed. Tags pushed by the pipeline do not trigger this.
+# Deletes any version tag that is not on master, as soon as it is pushed. Version
+# tags are pushed from outside the pipeline by the merge-and-tag skill, so GitHub
+# cannot simply stop them being created.
 name: Tag guard
 
 on:
