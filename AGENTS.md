@@ -104,6 +104,20 @@ Commits are read as part of the work. Keep each one small and buildable, with an
 imperative subject and a body explaining why. Never mix a refactor with a
 behaviour change.
 
+## Branches and pull requests
+
+`master` is protected, so it only changes through a merged pull request. Nobody
+can push to it directly, including admins.
+
+1. Branch from `master` as `feature/<short-name>`.
+2. Push the branch and open a pull request into `master` on the fork.
+3. CI runs `make test` on every push to the branch. The `test` check must pass and
+   the branch must be up to date with `master` before it can merge.
+4. Merge with a merge commit or a rebase, and never squash, because the individual
+   commits are read as part of the work.
+
+Merging into `master` starts the CD pipeline.
+
 ## Versioning
 
 Every new pull request bumps the minor version by one, for example v2.3 to v2.4.
