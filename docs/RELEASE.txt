@@ -1,6 +1,8 @@
 HOW TO RELEASE DEALERDESK
 =========================
 
+Only release a commit whose CI job has passed (Actions tab on GitHub).
+
 1. Build on your machine (see README)
 2. Test it a bit: add a car, do a quote, sell a car, check the invoice looks right.
    PUT THE DATA FILES BACK AFTERWARDS!!
