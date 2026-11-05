@@ -12,6 +12,7 @@ menu-driven terminal application written in C.
       data/                sample data files
       tests/unit/          pricing tests
       tests/integration/   scripted sessions compared with a recorded baseline
+        behaviour/         Given/When/Then scenarios, one file per capability
     openspec/              behaviour specs and proposed changes
     docs/                  challenge brief, TICKET-142, release procedure
     AGENTS.md, CLAUDE.md   instructions for AI coding agents
@@ -27,7 +28,8 @@ Then, from the repository root:
 
     make build      # compile to app/dealerdesk
     make run        # start the app
-    make test       # run the unit and integration tests
+    make test       # run the unit, integration and scenario tests
+    make coverage   # list spec scenarios that have no test
 
 To build without make:
 

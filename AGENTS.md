@@ -17,6 +17,8 @@ Run these from the repository root, on Linux, macOS or WSL.
     make test               unit and integration tests
     make test-unit          pricing tests only
     make test-integration   replay scripted sessions against the baseline
+    make test-behaviour     run the Given/When/Then scenarios
+    make coverage           list spec scenarios with no test
     make golden             re-record the baseline (see rule 2)
     make version            print the current version
     openspec validate --all --strict
@@ -29,6 +31,10 @@ Run these from the repository root, on Linux, macOS or WSL.
     app/tests/unit/          test_*.c, plain C with no framework
     app/tests/integration/   scenarios/*.keys are keystrokes, expected/*.txt is
                              the baseline, fixtures/data is the starting data
+    app/tests/integration/behaviour/
+                             scenarios/*.sh hold one Given/When/Then test per spec
+                             scenario, with the same name. steps.sh defines what
+                             each sentence does
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
     .github/workflows/       ci.yml runs make test. cd.yml runs it on master, then
