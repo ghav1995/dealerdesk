@@ -4,14 +4,14 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 1. Open the pull request
 
-- [ ] 1.1 Commit the planning artifacts on `feature/map-system-behaviour`, leaving out `app/data`, and verify `openspec validate --all --strict` passes.
-- [ ] 1.2 Bump the version to v2.5 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.5 and `make test` passes.
+- [x] 1.1 Commit the planning artifacts on `feature/map-system-behaviour`, leaving out `app/data`, and verify `openspec validate --all --strict` passes.
+- [x] 1.2 Bump the version to v2.5 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.5 and `make test` passes.
 - [ ] 1.3 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
 
 ## 2. Scenario test harness
 
-- [ ] 2.1 Add `app/tests/integration/behaviour/steps.sh` and `run.sh` with the `Scenario`, `Given`, `When`, `Then` and `And` functions, a private data folder per scenario, and one working scenario, and verify it passes and leaves `app/data` untouched.
-- [ ] 2.2 Make an unrecognised sentence and a failed `Then` fail the run with a readable message, and verify both by running a deliberately wrong scenario.
+- [x] 2.1 Add `app/tests/integration/behaviour/steps.sh` and `run.sh` with the `Scenario`, `Given`, `When`, `Then` and `And` functions, a private data folder per scenario, and one working scenario, and verify it passes and leaves `app/data` untouched.
+- [x] 2.2 Make an unrecognised sentence and a failed `Then` fail the run with a readable message, and verify both by running a deliberately wrong scenario.
 - [ ] 2.3 Add a `make test-behaviour` target, include it in `make test`, and verify `make test` runs it from a clean tree.
 - [ ] 2.4 Add a coverage script that lists spec scenarios with no test and tests with no scenario, in report-only mode, and verify it reports all 180 scenarios except the working one.
 - [ ] 2.5 Document the harness in the repository map and commands in `AGENTS.md`, and in the README, and verify the documented commands run as written.
