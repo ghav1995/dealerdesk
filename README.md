@@ -15,6 +15,7 @@ menu-driven terminal application written in C.
         behaviour/         Given/When/Then scenarios, one file per capability
     openspec/              behaviour specs and proposed changes
     docs/                  challenge brief, TICKET-142, release procedure
+      known-bugs/          bugs for the sprint to address, one file each
     AGENTS.md, CLAUDE.md   instructions for AI coding agents
 
 ## Quick start
@@ -87,6 +88,10 @@ A salesman discount above 15% is reduced to 15%. There is no manager PIN.
 
 The in-app Help screen still says 5% trade discount and a manager PIN above
 10%. That text is out of date, and is left as it is because staff see it.
+
+## Known bugs
+
+[docs/known-bugs/README.md](docs/known-bugs/README.md) lists every known bug by severity, for the sprint to address.
 
 ## Changing the code
 
