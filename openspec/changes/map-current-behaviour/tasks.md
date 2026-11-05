@@ -63,7 +63,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 10. Navigation
 
-- [ ] 10.1 Write scenario tests for menus, headers, invalid choices and going back, and verify they pass.
+- [x] 10.1 Write scenario tests for menus, headers, invalid choices and going back, and verify they pass.
 - [ ] 10.2 Write scenario tests for pausing, Help, BUG-009 and BUG-012, and verify all 21 navigation scenarios pass.
 - [ ] 10.3 Remove a menu option and change a Help line in a throwaway copy, and verify the navigation tests fail.
 
