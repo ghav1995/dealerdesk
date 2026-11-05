@@ -378,8 +378,12 @@ then_step() {
         local version
         version="$(cd "$repo_root" && make -s version)"
         screen_has "DEALERDESK $version" || fail_step "header does not show $version"
-    elif [[ "$s" =~ ^the\ (.+)\ is\ (-?[0-9.]+)$ ]]; then
-        local label amount="${BASH_REMATCH[2]}"
+    elif [[ "$s" =~ ^the\ line\ for\ \"(.*)\"\ shows\ \"(.*)\"$ ]]; then
+        local start="${BASH_REMATCH[1]}" want="${BASH_REMATCH[2]}"
+        grep -E "^ *$start " "$work/screen.txt" | grep -F -q -- "$want" \
+            || fail_step "line for $start does not show: $want"
+    elif [[ "$s" =~ ^the\ (.+)\ (is|are)\ (-?[0-9.]+)$ ]]; then
+        local label amount="${BASH_REMATCH[3]}"
         label="$(label_for "${BASH_REMATCH[1]}")" || { fail_step "no step matches: $s"; return; }
         line_is "$label" "$amount" || fail_step "$s, but the screen shows: $(grep -E "^ *$label" "$work/screen.txt" | head -1)"
     elif [[ "$s" =~ ^there\ is\ no\ (.+)\ line$ ]]; then

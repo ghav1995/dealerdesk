@@ -96,6 +96,7 @@ static void test_trade_in_comes_off_after_vat(void)
     check("trade-in", "total", with_trade_in.total, without.total - 400.00);
 }
 
+/* Scenario: Half a penny */
 static void test_rounds_half_pennies_up(void)
 {
     check("rnd2", "half up", rnd2(10.125), 10.13);

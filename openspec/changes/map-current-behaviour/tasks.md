@@ -18,7 +18,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 3. Pricing
 
-- [ ] 3.1 Write scenario tests for the 9 existing pricing scenarios, naming `Half a penny` in a comment in `test_calc.c`, and verify they pass.
+- [x] 3.1 Write scenario tests for the 9 existing pricing scenarios, naming `Half a penny` in a comment in `test_calc.c`, and verify they pass.
 - [ ] 3.2 Write scenario tests for the 9 new pricing scenarios, including BUG-004 and BUG-005, and verify they pass.
 - [ ] 3.3 Change the VAT rate and the trade rate in a throwaway copy, and verify the pricing tests fail.
 
