@@ -69,8 +69,8 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 11. Business workflows
 
-- [ ] 11.1 Write scenario tests for the 8 business-workflows scenarios and verify they pass.
-- [ ] 11.2 Make a throwaway copy let a sale use a stale price, and verify the workflow tests fail.
+- [x] 11.1 Write scenario tests for the 8 business-workflows scenarios and verify they pass.
+- [x] 11.2 Make a throwaway copy let a sale use a stale price, and verify the workflow tests fail.
 
 ## 12. Known bugs folder
 
