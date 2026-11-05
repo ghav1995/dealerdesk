@@ -125,8 +125,10 @@ Merging into `master` starts the CD pipeline.
 
 The minor version goes up by one when a pull request is created, for example v2.3
 to v2.4. That is one bump per pull request: individual changes do not bump it, and
-neither do later pushes to the same pull request. Make the bump its own commit and
-use the same number everywhere:
+neither do later pushes to the same pull request. CI fails unless the version is
+exactly the version on `master` plus 0.1, read from the screen header in
+`.github/scripts/check-version.sh`. Make the bump its own commit and use the same
+number everywhere:
 
 - `app/src/screen.c`: the header shown on every screen
 - `README.md`: the title
@@ -153,8 +155,8 @@ safe rollback point.
   `v*` tag that is not on `master`. GitHub cannot exempt the pipeline from a rule
   against creating tags on a personal repository, so a tag pushed by hand onto
   `master` would stay, and a tag can still be deleted by hand.
-- CI fails a pull request whose version already has a tag, so every merge can be
-  tagged.
+- Every merged version is new, because CI requires `master` plus 0.1 (see
+  Versioning), so every merge can be tagged.
 - To roll back, run the Rollback workflow with a tag. It checks the tag is on
   `master` and goes straight to the `prd` approval. `docs/RELEASE.txt` has the steps
   for a real rollback.

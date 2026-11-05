@@ -12,13 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
-      - name: Check this version has not been released
+      - name: Check the version is master plus 0.1
         if: github.event_name == 'pull_request'
         run: |
-          version="$(make -s version)"
-          if git ls-remote --exit-code --tags origin "refs/tags/$version" > /dev/null; then
-            echo "::error::$version is already tagged, so bump the version."
-            exit 1
-          fi
+          git fetch -q --depth=1 origin "$GITHUB_BASE_REF"
+          bash .github/scripts/check-version.sh FETCH_HEAD
       - name: Build and run all tests
         run: make test
