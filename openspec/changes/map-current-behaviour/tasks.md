@@ -51,7 +51,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 ## 8. Stock
 
 - [x] 8.1 Write scenario tests for the 5 existing stock scenarios and verify they pass.
-- [ ] 8.2 Write scenario tests for listing, adding and refusing vehicles, and verify they pass.
+- [x] 8.2 Write scenario tests for listing, adding and refusing vehicles, and verify they pass.
 - [ ] 8.3 Write scenario tests for capacity, finding, repricing and reserving, including BUG-010 and BUG-014, and verify all 29 stock scenarios pass.
 - [ ] 8.4 Make a throwaway copy upper-case plates and allow a zero list price, and verify the stock tests fail.
 
