@@ -1,0 +1,4 @@
+# Keep LF in every checkout. The app is built and tested under Linux/WSL, where
+# CRLF breaks Makefiles and shell scripts, and Windows git and WSL git otherwise
+# disagree about which files have changed in the same working tree.
+* text=auto eol=lf
