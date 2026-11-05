@@ -38,10 +38,10 @@ Run these from the repository root, on Linux, macOS or WSL.
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
     docs/known-bugs/         bugs for the sprint, one file each, indexed by severity
-    .github/workflows/       ci.yml runs make test. cd.yml runs it on master, then
-                             simulated dev, test, qa and prd deploys, each approved,
-                             then tags the version. rollback.yml returns prd to a
-                             tag, and tag-guard.yml deletes tags not on master
+    .github/workflows/       ci.yml runs make test. cd.yml starts from a version tag,
+                             runs it, then deploys that tag to simulated dev, test,
+                             qa and prd, each approved. rollback.yml returns prd to
+                             a tag, and tag-guard.yml deletes tags not on master
 
 ## What to trust
 
@@ -123,10 +123,12 @@ can push to it directly, including admins.
 2. Push the branch and open a pull request into `master` on the fork.
 3. CI runs `make test` on every push to the branch. The `test` check must pass and
    the branch must be up to date with `master` before it can merge.
-4. Merge with a merge commit or a rebase, and never squash, because the individual
-   commits are read as part of the work.
+4. Merge with the `merge-and-tag` skill. It uses a merge commit, and never squashes
+   because the individual commits are read as part of the work, then creates the
+   version tag. Agents without skills follow
+   `.claude/skills/merge-and-tag/SKILL.md` by hand.
 
-Merging into `master` starts the CD pipeline.
+The tag starts the CD pipeline, so a merge on its own deploys nothing.
 
 ## Versioning
 
@@ -152,21 +154,27 @@ version, so never run `make golden` for a bump.
 
 ## Tags and rollback
 
-A tag marks a version that passed every stage of the CD pipeline, so each tag is a
-safe rollback point.
+A tag marks a version cut from `master` straight after its pull request merged. It
+starts the CD pipeline, and every stage deploys that tag. The tag comes first, so it
+does not prove the version reached `prd`: a version that fails `qa` keeps its tag,
+and its CD run shows how far it got.
 
-- Tags are annotated and named after the version, such as `v2.4`.
-- The `tag` job in `cd.yml` creates them, on `master`, after `prd` is approved. Never
-  tag by hand.
-- A repository ruleset stops a `v*` tag being moved, and `tag-guard.yml` deletes any
-  `v*` tag that is not on `master`. GitHub cannot exempt the pipeline from a rule
-  against creating tags on a personal repository, so a tag pushed by hand onto
-  `master` would stay, and a tag can still be deleted by hand.
+- Tags are annotated, named after the version, such as `v2.4`, and carry a full
+  description of what changed.
+- The `merge-and-tag` skill creates them, on `master`, after the merge. Never tag
+  any other way. CD refuses a tag that is not on `master`, does not match the version
+  in the code, or has an incomplete description (see
+  `.github/scripts/check-tag-notes.sh`).
+- A repository ruleset stops a `v*` tag being moved, so a description cannot be
+  corrected after the push. `tag-guard.yml` deletes any `v*` tag that is not on
+  `master`. A tag can still be deleted by hand.
 - Every merged version is new, because CI requires `master` plus 0.1 (see
   Versioning), so every merge can be tagged.
-- To roll back, run the Rollback workflow with a tag. It checks the tag is on
-  `master` and goes straight to the `prd` approval. `docs/RELEASE.txt` has the steps
-  for a real rollback.
+- To deploy a tag again, run the CD workflow from that tag.
+- To roll back, run the Rollback workflow with a tag whose CD run reached `prd`. It
+  checks the tag is on `master` and goes straight to the `prd` approval, but it does
+  not check the version reached `prd`, so the approver must. `docs/RELEASE.txt` has
+  the steps for a real rollback.
 - After a rollback, fix forward with a new pull request and a new version. Data files
   must still load on the older version (see rule 3).
 

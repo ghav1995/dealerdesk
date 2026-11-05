@@ -14,8 +14,9 @@ Only release a commit whose CI job has passed (Actions tab on GitHub).
 HOW TO ROLL BACK
 ----------------
 
-Every version approved through all CD stages gets a tag on master, for example
-v2.4. Tags cannot be moved, so each one is a known good version.
+Every version gets a tag on master before it is deployed, for example v2.4. Tags
+cannot be moved, but a tag does not prove a version reached prd. Check its CD run
+on GitHub before rolling back to it.
 
 1. If dealerdesk.old is the version you want, copy it back. This is the fastest way.
 2. Otherwise check out the tag: git fetch --tags, then git checkout v2.4
