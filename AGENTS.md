@@ -120,9 +120,10 @@ Merging into `master` starts the CD pipeline.
 
 ## Versioning
 
-Every new pull request bumps the minor version by one, for example v2.3 to v2.4.
-Make the bump its own commit, as the last commit on the branch, and use the same
-number everywhere:
+The minor version goes up by one when a pull request is created, for example v2.3
+to v2.4. That is one bump per pull request: individual changes do not bump it, and
+neither do later pushes to the same pull request. Make the bump its own commit and
+use the same number everywhere:
 
 - `app/src/screen.c`: the header shown on every screen
 - `README.md`: the title
