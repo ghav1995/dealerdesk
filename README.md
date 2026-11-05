@@ -1,79 +1,108 @@
 This standard disclaimer states that the work is entirely fictional and any resemblance to real people, places, or events is coincidental.
 
-DEALERDESK v2.1
-===============
+# DealerDesk v2.4
 
-Dealer management for the showroom: stock, customers, quotes and invoices.
+Dealer management for the showroom: stock, customers, quotes and invoices. A
+menu-driven terminal application written in C.
 
+## Repository layout
 
-QUICK START (Linux, macOS, or WSL on Windows)
----------------------------------------------
+    app/
+      src/                 C sources and headers
+      data/                sample data files
+      tests/unit/          pricing tests
+      tests/integration/   scripted sessions compared with a recorded baseline
+    openspec/              behaviour specs and proposed changes
+    docs/                  challenge brief, TICKET-142, release procedure
+    AGENTS.md, CLAUDE.md   instructions for AI coding agents
 
-You need a C compiler (gcc or clang). From the repository root:
+## Quick start
 
-    gcc -o dealerdesk *.c -lm
+You need Linux, macOS or WSL on Windows, with a C compiler and make. On Ubuntu
+or WSL:
+
+    sudo apt install build-essential
+
+Then, from the repository root:
+
+    make build      # compile to app/dealerdesk
+    make run        # start the app
+    make test       # run the unit and integration tests
+
+To build without make:
+
+    cd app
+    gcc -o dealerdesk src/*.c -lm
     ./dealerdesk
 
-* Always run it from the repository root. It reads and writes the files in ./data
+* The app reads and writes `./data`, so it has to start from `app/`. `make run`
+  does this for you.
 * Pick a menu option by typing its number and pressing ENTER. 0 goes back, and
   0 on the main menu exits.
-* Every change (new vehicle, sale, ...) is saved to data/*.dat immediately.
-  To put the sample data back:
+* Every change (new vehicle, sale, ...) is saved to `app/data/*.dat`
+  immediately. To put the sample data back:
 
-      git checkout -- data
+      git checkout -- app/data
 
+Do not edit the `.dat` files by hand while the program is running.
 
-BUILD
------
-
-    gcc -o dealerdesk main.c dbfile.c screen.c report.c
-
-(Windows releases are built with the Borland compiler on the old build PC.)
-
-
-RUN
----
-
-    ./dealerdesk
-
-Data files are read from C:\DEALERDESK\DATA
-
-    stock.dat       vehicles
-    customers.dat   customers
-    invoices.dat    invoices
-    next_ids.dat    id counters
-
-Do NOT edit the .dat files by hand while the program is running!
-
-
-MENU
-----
+## Menu
 
     1. Stock
     2. Customers
     3. Quote
     4. Sell vehicle
     5. Invoices
-    6. Reports (monthly sales, margin per vehicle)
+    9. Help
     0. Exit
 
+## Data files
 
-PRICING RULES
--------------
+    stock.dat       vehicles
+    customers.dat   customers
+    invoices.dat    invoices
+    next_ids.dat    id counters
 
-* VAT (20%) is calculated on the list price. Discounts are then taken off
-  the VAT inclusive price.
-* Trade customers get a 5% trade discount.
-* Salesman discount is up to 10%. Anything above 10% asks for a manager PIN.
-* Delivery (150.00) and first registration (55.00) are added to every sale.
-  Both are VAT exempt.
-* Trade-in value is taken off the final total.
+One record per line, with fields separated by `|`. The formats are defined in
+[openspec/specs/data-files/spec.md](openspec/specs/data-files/spec.md).
 
+## Pricing rules
 
-RELEASE
--------
+Checked against the code and the invoices in the sample data. The full rules
+are in [openspec/specs/pricing/spec.md](openspec/specs/pricing/spec.md).
 
-See RELEASE.txt
+      List price
+    - Trade discount       10% of list price, trade customers only
+    - Salesman discount    0-15% of the price after trade discount
+    = Net price
+    + Delivery             150.00
+    + VAT                  20% of net price plus delivery
+    + Registration fee     55.00, no VAT
+    - Trade-in
+    = Total
 
+A salesman discount above 15% is reduced to 15%. There is no manager PIN.
+
+The in-app Help screen still says 5% trade discount and a manager PIN above
+10%. That text is out of date, and is left as it is because staff see it.
+
+## Changing the code
+
+Changes are spec-driven with [OpenSpec](https://github.com/Fission-AI/OpenSpec),
+which needs Node.js 22.12 or later:
+
+    npm install -g @fission-ai/openspec@1.16.0
+
+See [AGENTS.md](AGENTS.md) for the workflow and the rules for changing this
+codebase.
+
+## Release
+
+See [docs/RELEASE.txt](docs/RELEASE.txt). Releases are manual. The pipeline in
+[.github/workflows/cd.yml](.github/workflows/cd.yml) runs the tests and then
+simulates approved deploys to dev, test, qa and prd. It does not deploy anything.
+
+A version approved through every stage is tagged on `master`, for example `v2.4`.
+Tags are the rollback points, and `docs/RELEASE.txt` explains how to use them.
 
 Problems: ask Phil (ext. 214).

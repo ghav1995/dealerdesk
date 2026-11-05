@@ -1,0 +1,30 @@
+# Simulated rollback: nothing is deployed. Real rollbacks follow docs/RELEASE.txt.
+# It goes straight to the prd approval, because a tag has already passed every stage.
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Tag to roll back to, for example v2.3
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  prd:
+    runs-on: ubuntu-latest
+    environment: prd
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Check the tag exists on master
+        run: git merge-base --is-ancestor "refs/tags/$VERSION" origin/master
+      - name: Roll prd back
+        run: |
+          echo "Simulating rollback of prd to $VERSION"
+          sleep 30

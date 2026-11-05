@@ -1,0 +1,14 @@
+# Build output
+app/dealerdesk
+app/dealerdesk.exe
+app/build/
+*.o
+
+# Local-only agent settings
+.claude/settings.local.json
+
+# Secrets must never live in this repository
+.env
+.env.*
+*.dpapi
+*.pem

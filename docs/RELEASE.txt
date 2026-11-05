@@ -1,0 +1,26 @@
+HOW TO RELEASE DEALERDESK
+=========================
+
+Only release a commit whose CI job has passed (Actions tab on GitHub).
+
+1. Build on your machine (see README)
+2. Test it a bit: add a car, do a quote, sell a car, check the invoice looks right.
+   PUT THE DATA FILES BACK AFTERWARDS!!
+3. On \\fileserver01\apps\dealerdesk\ rename dealerdesk to dealerdesk.old
+4. Copy the new dealerdesk binary there
+5. Email the showrooms that a new version is out
+6. If something breaks, copy dealerdesk.old back
+
+HOW TO ROLL BACK
+----------------
+
+Every version approved through all CD stages gets a tag on master, for example
+v2.4. Tags cannot be moved, so each one is a known good version.
+
+1. If dealerdesk.old is the version you want, copy it back. This is the fastest way.
+2. Otherwise check out the tag: git fetch --tags, then git checkout v2.4
+3. Build it using the README in that tag, and copy the binary to the server
+4. Email the showrooms which version they are back on
+5. Fix the problem in a new pull request with a new version. Never reuse a tag.
+
+Last release: 2.3 (2021-04-08)  - P.
