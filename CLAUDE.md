@@ -69,6 +69,9 @@ Behaviour changes go through these commands:
 Stop after `/opsx:propose` so a person can review the decisions before any code is
 written.
 
+Merge pull requests with the `merge-and-tag` skill. It also creates the version tag
+that starts CD, so a hook blocks any other way of merging.
+
 When reporting work:
 
 - Say what you ran and what it showed. If something was not run, say so.
