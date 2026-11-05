@@ -1,0 +1,41 @@
+# Scenarios for openspec/specs/invoices/spec.md
+
+Scenario "Confirmed sale"
+  Given "the sample showroom data"
+  When  "I sell vehicle 1002 to customer 2001"
+  Then  "the screen shows \"Invoice 50233 created.\""
+  And   "vehicle 1002 is saved with status \"2\""
+
+Scenario "Cancelled sale"
+  Given "the sample showroom data"
+  When  "I answer \"N\" to selling vehicle 1002 to customer 2001"
+  Then  "the screen shows \"Sale cancelled.\""
+  And   "the data files are unchanged"
+
+Scenario "Combined discounts"
+  Given "the sample showroom data"
+  When  "I sell vehicle 1004 to customer 2002 with 10% discount"
+  Then  "invoice 50233 is saved with discount \"3182.50\""
+
+Scenario "Greenway invoice from 2021"
+  Given "the sample showroom data"
+  When  "I view invoice 50232"
+  Then  "the list price is 10495.00"
+  And   "the discounts are -839.60"
+  And   "the net price is 9655.40"
+  And   "the fees are 205.00"
+  And   "the VAT is 1961.08"
+  And   "the total is 11821.48"
+
+Scenario "Vehicle price changed after sale"
+  Given "the sample showroom data"
+  And   "I change the price of vehicle 1009 to \"1\""
+  When  "I view invoice 50230"
+  Then  "the list price is 9295.00"
+  And   "the total is 9331.30"
+
+Scenario "Invoice with a trade-in"
+  Given "the sample showroom data"
+  When  "I view invoice 50230"
+  Then  "the trade-in is -1500.00"
+  And   "the total is 9331.30"
