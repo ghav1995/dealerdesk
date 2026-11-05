@@ -1,0 +1,30 @@
+schema: spec-driven
+
+context: |
+  DealerDesk is a production C terminal app with flat-file storage. Dealership
+  staff use it daily and must not notice any change except the requested one.
+  Existing data files must load without conversion, and the rollback procedure in
+  docs/RELEASE.txt puts the previous binary back on the same data files.
+  Issued invoices are historical records and are never recalculated.
+  Invoices and compiled behaviour outrank comments, Help text and old docs.
+
+rules:
+  proposal:
+    - State what stays the same as well as what changes.
+    - Quote the ticket for each requirement, and list anything it leaves unclear.
+  specs:
+    - Use real amounts in pricing scenarios, worked to the penny.
+  design:
+    - Record every assumption and each decision the ticket left open, with the alternative rejected.
+    - Cover data compatibility in both directions, including rollback to the old binary.
+  tasks:
+    - Put the failing test before the code it covers.
+    - Keep each task to one small commit that builds and passes tests.
+
+operations:
+  apply:
+    guidance:
+      - Run make test after every task, and never re-record the baseline to get a test to pass.
+  archive:
+    guidance:
+      - Confirm make test and openspec validate --all --strict pass before archiving.
