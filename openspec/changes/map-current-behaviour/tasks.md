@@ -75,7 +75,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 ## 12. Known bugs folder
 
 - [x] 12.1 Add `docs/known-bugs/README.md` with the severity scale, a file template and an index of all 15 bugs, link it from the README, and verify every link resolves.
-- [ ] 12.2 Add the files for the High bugs, BUG-001 to BUG-004, and verify each one's reproduction steps by running them.
+- [x] 12.2 Add the files for the High bugs, BUG-001 to BUG-004, and verify each one's reproduction steps by running them.
 - [ ] 12.3 Add the files for the Medium bugs, BUG-005 to BUG-009, and verify each one's reproduction steps by running them.
 - [ ] 12.4 Add the files for the Low bugs, BUG-010 to BUG-015, and verify each one's reproduction steps by running them.
 - [ ] 12.5 Verify every `BUG-NNN` in the specs has a file, and every file names scenarios that exist in the specs.
