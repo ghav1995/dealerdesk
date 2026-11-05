@@ -39,8 +39,8 @@ Every task is one small commit. These tests describe existing code, so they pass
 - [x] 6.1 Write scenario tests for the 4 existing data-files scenarios and verify they pass.
 - [x] 6.2 Write scenario tests for restarts and id counters, and verify they pass.
 - [x] 6.3 Write scenario tests for missing files, short records and line endings, and verify they pass.
-- [ ] 6.4 Write scenario tests for BUG-001, BUG-006, BUG-007, BUG-008 and BUG-013, and verify all 30 data-files scenarios pass.
-- [ ] 6.5 Make a throwaway copy skip saving the id counters and change a field separator, and verify the data-files tests fail.
+- [x] 6.4 Write scenario tests for BUG-001, BUG-006, BUG-007, BUG-008 and BUG-013, and verify all 30 data-files scenarios pass.
+- [x] 6.5 Make a throwaway copy skip saving the id counters and change a field separator, and verify the data-files tests fail.
 
 ## 7. Customers
 
