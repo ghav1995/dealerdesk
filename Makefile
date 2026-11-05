@@ -15,7 +15,7 @@ HDRS      := $(wildcard $(SRC_DIR)/*.h)
 UNIT_SRCS := $(wildcard app/tests/unit/test_*.c)
 UNIT_BINS := $(patsubst app/tests/unit/%.c,$(BUILD_DIR)/%,$(UNIT_SRCS))
 
-.PHONY: all build run test test-unit clean
+.PHONY: all build run test test-unit test-integration golden clean
 
 all: build
 build: $(APP)
@@ -27,7 +27,7 @@ $(APP): $(SRCS) $(HDRS)
 run: $(APP)
 	cd app && ./dealerdesk
 
-test: test-unit
+test: test-unit test-integration
 
 test-unit: $(UNIT_BINS)
 	@for t in $(UNIT_BINS); do echo "== $$t"; $$t || exit 1; done
@@ -35,6 +35,14 @@ test-unit: $(UNIT_BINS)
 $(BUILD_DIR)/test_%: app/tests/unit/test_%.c $(SRC_DIR)/calc.c $(HDRS)
 	@mkdir -p $(BUILD_DIR)
 	$(CC) $(CFLAGS) -I$(SRC_DIR) -o $@ $< $(SRC_DIR)/calc.c $(LDLIBS)
+
+test-integration: $(APP)
+	bash app/tests/integration/run.sh $(APP)
+
+# Rewrites the expected screens and data files. Only for an intended, specified
+# behaviour change, and review the resulting diff before committing it.
+golden: $(APP)
+	bash app/tests/integration/run.sh $(APP) --update
 
 clean:
 	rm -rf $(BUILD_DIR) $(APP)
