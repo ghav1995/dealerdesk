@@ -44,7 +44,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 7. Customers
 
-- [ ] 7.1 Write scenario tests for the 4 existing customers scenarios and verify they pass.
+- [x] 7.1 Write scenario tests for the 4 existing customers scenarios and verify they pass.
 - [ ] 7.2 Write scenario tests for the 12 new customers scenarios, including BUG-002, and verify all 16 pass.
 - [ ] 7.3 Make a throwaway copy allow a blank name and make the search ignore case, and verify the customers tests fail.
 
