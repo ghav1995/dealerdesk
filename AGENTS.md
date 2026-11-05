@@ -60,6 +60,7 @@ specified change.
 
 1. **Staff must not notice anything except the requested feature.** Every screen,
    prompt, total and saved file stays byte-identical unless a spec says otherwise.
+   The only exception is the version number (see Versioning).
 2. **A changed baseline is a behaviour change.** Never run `make golden` to get a
    failing test to pass. Understand the diff first. Only re-record for a change
    the spec calls for, and commit the new baseline with that change.
@@ -82,7 +83,8 @@ specified change.
 8. **Keep secrets out of the repository, logs and chat.** This includes tokens in
    command lines and in files under `.claude/`.
 9. **This is a fork.** `origin` is the fork. `upstream` is read-only. Never open a
-   pull request against the original repository.
+   pull request against the original repository. On a fork, `gh pr create` can
+   default to the parent, so name the fork with `--repo` and check the target.
 
 ## Spec-driven workflow
 
@@ -101,6 +103,25 @@ leave behaviour identical do not need a change proposal.
 Commits are read as part of the work. Keep each one small and buildable, with an
 imperative subject and a body explaining why. Never mix a refactor with a
 behaviour change.
+
+## Versioning
+
+Every new pull request bumps the minor version by one, for example v2.3 to v2.4.
+Make the bump its own commit, as the last commit on the branch, and use the same
+number everywhere:
+
+- `app/src/screen.c`: the header shown on every screen
+- `README.md`: the title
+
+To confirm, run `git grep -n -E 'v[0-9]+\.[0-9]+' -- app/src README.md`. Every
+line should show the new number. If the version is added anywhere else, add that
+file to this list.
+
+Leave `docs/RELEASE.txt` alone. Its "Last release" line records what was really
+deployed, so it only changes when someone does a real release.
+
+A bump needs no OpenSpec change. The integration baseline masks the header
+version, so never run `make golden` for a bump.
 
 ## Known traps
 
