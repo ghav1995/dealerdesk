@@ -1,0 +1,28 @@
+# Deletes any version tag that is not on master. On a personal repository GitHub
+# cannot exempt the pipeline from a rule against creating tags, so tags are checked
+# as soon as they are pushed. Tags pushed by the pipeline do not trigger this.
+name: Tag guard
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Delete the tag unless it is on master
+        run: |
+          if git merge-base --is-ancestor "$GITHUB_SHA" origin/master; then
+            echo "$GITHUB_REF_NAME is on master"
+          else
+            git push origin --delete "refs/tags/$GITHUB_REF_NAME"
+            echo "::error::$GITHUB_REF_NAME is not on master, so it was deleted."
+            exit 1
+          fi

@@ -33,7 +33,8 @@ Run these from the repository root, on Linux, macOS or WSL.
     openspec/changes/        proposed changes, one folder each
     .github/workflows/       ci.yml runs make test. cd.yml runs it on master, then
                              simulated dev, test, qa and prd deploys, each approved,
-                             then tags the version. rollback.yml returns prd to a tag
+                             then tags the version. rollback.yml returns prd to a
+                             tag, and tag-guard.yml deletes tags not on master
 
 ## What to trust
 
@@ -146,9 +147,12 @@ A tag marks a version that passed every stage of the CD pipeline, so each tag is
 safe rollback point.
 
 - Tags are annotated and named after the version, such as `v2.4`.
-- Only the `tag` job in `cd.yml` creates them, on `master`, after `prd` is approved.
-  A repository ruleset stops anyone else creating, moving or deleting a `v*` tag, so
-  never tag by hand.
+- The `tag` job in `cd.yml` creates them, on `master`, after `prd` is approved. Never
+  tag by hand.
+- A repository ruleset stops a `v*` tag being moved, and `tag-guard.yml` deletes any
+  `v*` tag that is not on `master`. GitHub cannot exempt the pipeline from a rule
+  against creating tags on a personal repository, so a tag pushed by hand onto
+  `master` would stay, and a tag can still be deleted by hand.
 - CI fails a pull request whose version already has a tag, so every merge can be
   tagged.
 - To roll back, run the Rollback workflow with a tag. It checks the tag is on

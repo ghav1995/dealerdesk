@@ -59,7 +59,7 @@ jobs:
           sleep 30
 
   # Only a version approved through every stage gets a tag, so each tag is a safe
-  # rollback point. A repository ruleset stops tags being created any other way.
+  # rollback point. tag-guard.yml deletes any version tag that is not on master.
   tag:
     needs: prd
     if: github.ref == 'refs/heads/master'
