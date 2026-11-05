@@ -84,7 +84,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 - [x] 13.1 Make the coverage script fail the build and run it from `make test`, and verify it passes with all 180 scenarios covered.
 - [x] 13.2 Verify the guarantee: `git diff master -- app/src` shows only the version line, and `git diff master -- app/tests/integration/expected app/tests/integration/scenarios app/data` is empty.
-- [ ] 13.3 Verify `make test` and `openspec validate --all --strict` pass from a clean tree, CI passes on the pull request, and record how long CI takes.
+- [x] 13.3 Verify `make test` and `openspec validate --all --strict` pass from a clean tree, CI passes on the pull request, and record how long CI takes.
 
 ## Workflow follow-up
 
