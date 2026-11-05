@@ -12,5 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
+      - name: Check this version has not been released
+        if: github.event_name == 'pull_request'
+        run: |
+          version="$(make -s version)"
+          if git ls-remote --exit-code --tags origin "refs/tags/$version" > /dev/null; then
+            echo "::error::$version is already tagged, so bump the version."
+            exit 1
+          fi
       - name: Build and run all tests
         run: make test

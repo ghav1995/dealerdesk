@@ -15,7 +15,7 @@ HDRS      := $(wildcard $(SRC_DIR)/*.h)
 UNIT_SRCS := $(wildcard app/tests/unit/test_*.c)
 UNIT_BINS := $(patsubst app/tests/unit/%.c,$(BUILD_DIR)/%,$(UNIT_SRCS))
 
-.PHONY: all build run test test-unit test-integration golden clean
+.PHONY: all build run test test-unit test-integration golden version clean
 
 all: build
 build: $(APP)
@@ -43,6 +43,10 @@ test-integration: $(APP)
 # behaviour change, and review the resulting diff before committing it.
 golden: $(APP)
 	bash app/tests/integration/run.sh $(APP) --update
+
+# Prints the version from the screen header, for example v2.4.
+version:
+	@grep -o -E 'DEALERDESK v[0-9]+\.[0-9]+' $(SRC_DIR)/screen.c | cut -d' ' -f2
 
 clean:
 	rm -rf $(BUILD_DIR) $(APP)

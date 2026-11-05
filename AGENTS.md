@@ -18,6 +18,7 @@ Run these from the repository root, on Linux, macOS or WSL.
     make test-unit          pricing tests only
     make test-integration   replay scripted sessions against the baseline
     make golden             re-record the baseline (see rule 2)
+    make version            print the current version
     openspec validate --all --strict
 
 ## Repository map
@@ -31,7 +32,8 @@ Run these from the repository root, on Linux, macOS or WSL.
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
     .github/workflows/       ci.yml runs make test. cd.yml runs it on master, then
-                             simulated dev, test, qa and prd deploys, each approved
+                             simulated dev, test, qa and prd deploys, each approved,
+                             then tags the version. rollback.yml returns prd to a tag
 
 ## What to trust
 
@@ -137,6 +139,23 @@ deployed, so it only changes when someone does a real release.
 
 A bump needs no OpenSpec change. The integration baseline masks the header
 version, so never run `make golden` for a bump.
+
+## Tags and rollback
+
+A tag marks a version that passed every stage of the CD pipeline, so each tag is a
+safe rollback point.
+
+- Tags are annotated and named after the version, such as `v2.4`.
+- Only the `tag` job in `cd.yml` creates them, on `master`, after `prd` is approved.
+  A repository ruleset stops anyone else creating, moving or deleting a `v*` tag, so
+  never tag by hand.
+- CI fails a pull request whose version already has a tag, so every merge can be
+  tagged.
+- To roll back, run the Rollback workflow with a tag. It checks the tag is on
+  `master` and goes straight to the `prd` approval. `docs/RELEASE.txt` has the steps
+  for a real rollback.
+- After a rollback, fix forward with a new pull request and a new version. Data files
+  must still load on the older version (see rule 3).
 
 ## Known traps
 

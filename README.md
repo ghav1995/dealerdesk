@@ -102,4 +102,7 @@ See [docs/RELEASE.txt](docs/RELEASE.txt). Releases are manual. The pipeline in
 [.github/workflows/cd.yml](.github/workflows/cd.yml) runs the tests and then
 simulates approved deploys to dev, test, qa and prd. It does not deploy anything.
 
+A version approved through every stage is tagged on `master`, for example `v2.4`.
+Tags are the rollback points, and `docs/RELEASE.txt` explains how to use them.
+
 Problems: ask Phil (ext. 214).
