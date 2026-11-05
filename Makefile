@@ -15,7 +15,7 @@ HDRS      := $(wildcard $(SRC_DIR)/*.h)
 UNIT_SRCS := $(wildcard app/tests/unit/test_*.c)
 UNIT_BINS := $(patsubst app/tests/unit/%.c,$(BUILD_DIR)/%,$(UNIT_SRCS))
 
-.PHONY: all build run test test-unit test-integration test-behaviour coverage golden version clean
+.PHONY: all build run test test-unit test-integration test-behaviour test-coverage coverage golden version clean
 
 all: build
 build: $(APP)
@@ -27,7 +27,7 @@ $(APP): $(SRCS) $(HDRS)
 run: $(APP)
 	cd app && ./dealerdesk
 
-test: test-unit test-integration test-behaviour
+test: test-unit test-integration test-behaviour test-coverage
 
 test-unit: $(UNIT_BINS)
 	@for t in $(UNIT_BINS); do echo "== $$t"; $$t || exit 1; done
@@ -45,6 +45,10 @@ test-behaviour: $(APP)
 # Lists spec scenarios with no test, and tests with no spec scenario.
 coverage:
 	bash app/tests/integration/behaviour/check-coverage.sh
+
+# The same check, failing the build if there is a gap.
+test-coverage:
+	bash app/tests/integration/behaviour/check-coverage.sh --strict
 
 # Rewrites the expected screens and data files. Only for an intended, specified
 # behaviour change, and review the resulting diff before committing it.

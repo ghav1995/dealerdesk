@@ -6,7 +6,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 - [x] 1.1 Commit the planning artifacts on `feature/map-system-behaviour`, leaving out `app/data`, and verify `openspec validate --all --strict` passes.
 - [x] 1.2 Bump the version to v2.5 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.5 and `make test` passes.
-- [ ] 1.3 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
+- [x] 1.3 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
 
 ## 2. Scenario test harness
 
@@ -82,7 +82,7 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 13. Final checks
 
-- [ ] 13.1 Make the coverage script fail the build and run it from `make test`, and verify it passes with all 180 scenarios covered.
+- [x] 13.1 Make the coverage script fail the build and run it from `make test`, and verify it passes with all 180 scenarios covered.
 - [ ] 13.2 Verify the guarantee: `git diff master -- app/src` shows only the version line, and `git diff master -- app/tests/integration/expected app/tests/integration/scenarios app/data` is empty.
 - [ ] 13.3 Verify `make test` and `openspec validate --all --strict` pass from a clean tree, CI passes on the pull request, and record how long CI takes.
 
