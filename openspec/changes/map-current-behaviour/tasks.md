@@ -31,8 +31,8 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 - [x] 5.1 Write scenario tests for the 6 existing invoices scenarios and verify they pass.
 - [x] 5.2 Write scenario tests for selling and recording a sale, including BUG-004 and BUG-015, and verify they pass.
-- [ ] 5.3 Write scenario tests for capacity, listing and viewing invoices, including BUG-011, and verify all 25 invoices scenarios pass.
-- [ ] 5.4 Make a throwaway copy skip marking the vehicle as sold and recalculate the total when viewing, and verify the invoices tests fail.
+- [x] 5.3 Write scenario tests for capacity, listing and viewing invoices, including BUG-011, and verify all 25 invoices scenarios pass.
+- [x] 5.4 Make a throwaway copy skip marking the vehicle as sold and recalculate the total when viewing, and verify the invoices tests fail.
 
 ## 6. Data files
 
