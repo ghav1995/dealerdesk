@@ -30,7 +30,8 @@ Run these from the repository root, on Linux, macOS or WSL.
                              the baseline, fixtures/data is the starting data
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
-    .github/workflows/       ci.yml runs make test on pull requests and master
+    .github/workflows/       ci.yml runs make test. cd.yml runs it on master, then
+                             simulated dev, test, qa and prd deploys, each approved
 
 ## What to trust
 

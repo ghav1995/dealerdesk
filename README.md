@@ -98,6 +98,8 @@ codebase.
 
 ## Release
 
-See [docs/RELEASE.txt](docs/RELEASE.txt).
+See [docs/RELEASE.txt](docs/RELEASE.txt). Releases are manual. The pipeline in
+[.github/workflows/cd.yml](.github/workflows/cd.yml) runs the tests and then
+simulates approved deploys to dev, test, qa and prd. It does not deploy anything.
 
 Problems: ask Phil (ext. 214).

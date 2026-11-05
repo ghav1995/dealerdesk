@@ -1,0 +1,59 @@
+# Simulated pipeline: nothing is deployed. Real releases follow docs/RELEASE.txt.
+# Approvals come from required reviewers on each GitHub environment. An environment
+# without them runs straight through, so set them up in the repository settings.
+name: CD
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  dev:
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Deploy to dev
+        run: |
+          echo "Simulating deploy of $GITHUB_SHA to dev"
+          sleep 30
+
+  test:
+    needs: dev
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Deploy to test
+        run: |
+          echo "Simulating deploy of $GITHUB_SHA to test"
+          sleep 30
+
+  qa:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: qa
+    steps:
+      - name: Deploy to qa
+        run: |
+          echo "Simulating deploy of $GITHUB_SHA to qa"
+          sleep 30
+
+  prd:
+    needs: qa
+    runs-on: ubuntu-latest
+    environment: prd
+    steps:
+      - name: Deploy to prd
+        run: |
+          echo "Simulating deploy of $GITHUB_SHA to prd"
+          sleep 30
