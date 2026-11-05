@@ -24,8 +24,8 @@ Every task is one small commit. These tests describe existing code, so they pass
 
 ## 4. Quotes
 
-- [ ] 4.1 Write scenario tests for the 10 quotes scenarios and verify they pass.
-- [ ] 4.2 Make a throwaway copy save data during a quote and allow sold vehicles to be quoted, and verify the quotes tests fail.
+- [x] 4.1 Write scenario tests for the 10 quotes scenarios and verify they pass.
+- [x] 4.2 Make a throwaway copy save data during a quote and allow sold vehicles to be quoted, and verify the quotes tests fail.
 
 ## 5. Invoices
 
