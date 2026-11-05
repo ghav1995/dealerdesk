@@ -1,6 +1,6 @@
 This standard disclaimer states that the work is entirely fictional and any resemblance to real people, places, or events is coincidental.
 
-# DealerDesk v2.4
+# DealerDesk v2.5
 
 Dealer management for the showroom: stock, customers, quotes and invoices. A
 menu-driven terminal application written in C.
@@ -12,8 +12,10 @@ menu-driven terminal application written in C.
       data/                sample data files
       tests/unit/          pricing tests
       tests/integration/   scripted sessions compared with a recorded baseline
+        behaviour/         Given/When/Then scenarios, one file per capability
     openspec/              behaviour specs and proposed changes
     docs/                  challenge brief, TICKET-142, release procedure
+      known-bugs/          bugs for the sprint to address, one file each
     AGENTS.md, CLAUDE.md   instructions for AI coding agents
 
 ## Quick start
@@ -27,7 +29,8 @@ Then, from the repository root:
 
     make build      # compile to app/dealerdesk
     make run        # start the app
-    make test       # run the unit and integration tests
+    make test       # run the unit, integration and scenario tests
+    make coverage   # list spec scenarios that have no test
 
 To build without make:
 
@@ -85,6 +88,10 @@ A salesman discount above 15% is reduced to 15%. There is no manager PIN.
 
 The in-app Help screen still says 5% trade discount and a manager PIN above
 10%. That text is out of date, and is left as it is because staff see it.
+
+## Known bugs
+
+[docs/known-bugs/README.md](docs/known-bugs/README.md) lists every known bug by severity, for the sprint to address.
 
 ## Changing the code
 
