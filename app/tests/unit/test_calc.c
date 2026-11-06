@@ -24,6 +24,7 @@ static void test_retail_invoice_50230(void)
 
     calc_quote(&q, 9295.00, 'R', 5, 1500.00);
     check("50230", "trade_disc", q.trade_disc, 0.00);
+    check("50230", "fleet_disc", q.fleet_disc, 0.00);
     check("50230", "disc", q.disc, 464.75);
     check("50230", "net", q.net, 8830.25);
     check("50230", "vat", q.vat, 1796.05);
@@ -36,6 +37,7 @@ static void test_trade_invoice_50231(void)
 
     calc_quote(&q, 13495.00, 'T', 0, 0);
     check("50231", "trade_disc", q.trade_disc, 1349.50);
+    check("50231", "fleet_disc", q.fleet_disc, 0.00);
     check("50231", "net", q.net, 12145.50);
     check("50231", "vat", q.vat, 2459.10);
     check("50231", "total", q.total, 14809.60);
@@ -96,6 +98,60 @@ static void test_trade_in_comes_off_after_vat(void)
     check("trade-in", "total", with_trade_in.total, without.total - 400.00);
 }
 
+static void test_fleet_discount(void)
+{
+    QUOTE q;
+
+    calc_quote(&q, 10995.00, 'F', 0, 0);
+    check("fleet", "fleet_disc", q.fleet_disc, 439.80);
+    check("fleet", "trade_disc", q.trade_disc, 0.00);
+    check("fleet", "disc", q.disc, 0.00);
+    check("fleet", "net", q.net, 10555.20);
+    check("fleet", "vat", q.vat, 2141.04);
+    check("fleet", "total", q.total, 12901.24);
+}
+
+static void test_fleet_discount_rounds_to_the_penny(void)
+{
+    QUOTE q;
+
+    calc_quote(&q, 1234.56, 'F', 0, 0);
+    check("fleet rounding", "net", q.net, 1185.18);
+    check("fleet rounding", "vat", q.vat, 267.04);
+    check("fleet rounding", "total", q.total, 1657.22);
+}
+
+static void test_fleet_salesman_discount_applies_after_fleet(void)
+{
+    QUOTE q;
+
+    calc_quote(&q, 12750.00, 'F', 5, 1000.00);
+    check("after fleet", "disc", q.disc, 612.00);
+    check("after fleet", "net", q.net, 11628.00);
+    check("after fleet", "vat", q.vat, 2355.60);
+    check("after fleet", "total", q.total, 13188.60);
+}
+
+static void test_fleet_discount_does_not_count_towards_the_limit(void)
+{
+    QUOTE q;
+
+    calc_quote(&q, 12750.00, 'F', 20, 0);
+    check("fleet limit", "disc_pct", q.disc_pct, 15.0);
+    check("fleet limit", "disc", q.disc, 1836.00);
+    check("fleet limit", "net", q.net, 10404.00);
+    check("fleet limit", "total", q.total, 12719.80);
+}
+
+static void test_fleet_fees_are_not_discounted(void)
+{
+    QUOTE q;
+
+    calc_quote(&q, 10995.00, 'F', 0, 0);
+    check("fleet fees", "delivery", q.delivery, 150.00);
+    check("fleet fees", "reg_fee", q.reg_fee, 55.00);
+}
+
 /* Scenario: Half a penny */
 static void test_rounds_half_pennies_up(void)
 {
@@ -112,6 +168,11 @@ int main(void)
     test_salesman_discount_is_limited();
     test_fees_and_vat();
     test_trade_in_comes_off_after_vat();
+    test_fleet_discount();
+    test_fleet_discount_rounds_to_the_penny();
+    test_fleet_salesman_discount_applies_after_fleet();
+    test_fleet_discount_does_not_count_towards_the_limit();
+    test_fleet_fees_are_not_discounted();
     test_rounds_half_pennies_up();
 
     if (failures) {
