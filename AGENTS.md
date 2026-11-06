@@ -38,6 +38,8 @@ Run these from the repository root, on Linux, macOS or WSL.
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
     docs/fleet-discount.md   how the fleet discount works, with the decisions behind it
+    docs/evidences/          fleet use cases, diagrams and images of the real app, with
+                             the scripts that capture them
     docs/known-bugs/         bugs for the sprint, one file each, indexed by severity
     .github/workflows/       ci.yml runs make test. cd.yml starts from a version tag,
                              runs it, then deploys that tag to simulated dev, test,

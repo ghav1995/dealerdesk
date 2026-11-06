@@ -1,6 +1,6 @@
 # Fleet discount
 
-Fleet customers, such as taxi firms, rental companies and delivery services, get 4% off the vehicle price automatically. This page explains how to use it and the decisions behind it.
+Fleet customers, such as taxi firms, rental companies and delivery services, get 4% off the vehicle price automatically. This page explains how to use it and the decisions behind it. [evidences/](evidences/README.md) walks through each use case with diagrams and images from the real app.
 
 Every print below was captured by running the app, with blank lines removed.
 
