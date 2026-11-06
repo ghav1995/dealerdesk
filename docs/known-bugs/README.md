@@ -1,8 +1,8 @@
 # Known bugs
 
-Bugs found while mapping how DealerDesk behaves, for the sprint to address. None of them has been fixed.
+Bugs found while mapping how DealerDesk behaves, for the sprint to address. The index shows which are still open.
 
-Each bug has a test that asserts what the app does today, in a scenario named `Known bug: ...`. That test passes while the bug exists, so fixing a bug makes its test fail. A fix must change the test and the spec on purpose, and update the status in the bug's file.
+Each open bug has a test that asserts what the app does today, in a scenario named `Known bug: ...`. That test passes while the bug exists, so fixing a bug makes its test fail. A fix must change the test and the spec on purpose, and update the status in the bug's file.
 
 ## Severity
 
@@ -17,7 +17,7 @@ Each bug has a test that asserts what the app does today, in a scenario named `K
 | Bug | Summary | Severity | Status |
 |---|---|---|---|
 | [BUG-001](BUG-001-blank-vehicle-details.md) | Blank make or model loses the price after a restart | High | Open |
-| [BUG-002](BUG-002-blank-customer-details.md) | Blank phone or email loses Trade status after a restart | High | Open |
+| [BUG-002](BUG-002-blank-customer-details.md) | Blank phone or email loses Trade status after a restart | High | Fixed in v2.7 |
 | [BUG-003](BUG-003-comma-in-amounts.md) | A comma cuts an amount short | High | Open |
 | [BUG-004](BUG-004-trade-in-above-amount-due.md) | A trade-in above the amount due gives a negative total | High | Open |
 | [BUG-005](BUG-005-negative-trade-in.md) | A negative trade-in adds to the total | Medium | Open |
