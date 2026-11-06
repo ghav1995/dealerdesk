@@ -292,6 +292,8 @@ static void mark_fleet(void)
     c = find_cust(read_int("  Customer ID : "));
     if (!c) {
         printf("\n  Customer not found.\n");
+    } else if (c->type == 'T') {
+        printf("\n  Trade customers cannot be fleet customers.\n");
     } else if (c->type == 'F') {
         c->type = 'R';
         save_customers();
