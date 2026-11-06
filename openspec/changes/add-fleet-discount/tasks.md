@@ -7,7 +7,7 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 - [x] 1.1 Change `check-coverage.sh` so scenarios in an active change are reported as pending without failing, and scenarios under a requirement an active change removes are skipped, then verify with a throwaway spec and test that a missing main scenario and an unknown test still fail the build.
 - [x] 1.2 Archive `map-current-behaviour` with `openspec archive map-current-behaviour --yes`, and verify the main specs hold all 180 scenarios, `make test` passes, and `openspec validate add-fleet-discount --strict` no longer says archive would refuse this delta.
 - [x] 1.3 Commit the planning artifacts on `feature/fleet-discount`, and verify `openspec validate --all --strict` and `make test` pass.
-- [ ] 1.4 Bump the version to v2.7 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.7 and `make test` passes.
+- [x] 1.4 Bump the version to v2.7 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.7 and `make test` passes.
 - [ ] 1.5 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
 
 ## 2. Fix BUG-002: blank customer details
