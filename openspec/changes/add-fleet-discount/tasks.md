@@ -53,8 +53,8 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 ## 8. Final checks
 
 - [x] 8.1 Verify rollback by building the v2.6 code and running it on data files written by this version, confirming the results in the design's Data compatibility table, including the loss of the fleet line after v2.6 saves, and record the output in `docs/fleet-discount.md`.
-- [ ] 8.2 Verify the ticket's acceptance criteria: only `expected/customers.txt` differs from `master` in the baseline, its diff contains only the menu line and the prompt, and `app/data` and the fixtures are unchanged.
-- [ ] 8.3 Verify every commit builds and passes from a clean tree, and `make test` and `openspec validate --all --strict` pass.
+- [x] 8.2 Verify the ticket's acceptance criteria: only `expected/customers.txt` differs from `master` in the baseline, its diff contains only the menu line and the prompt, and `app/data` and the fixtures are unchanged.
+- [x] 8.3 Verify every commit builds and passes from a clean tree, and `make test` and `openspec validate --all --strict` pass.
 - [ ] 8.4 Verify CI passes on the pull request and `make coverage` shows every pending scenario has a test.
 
 ## Workflow follow-up
