@@ -15,6 +15,7 @@ menu-driven terminal application written in C.
         behaviour/         Given/When/Then scenarios, one file per capability
     openspec/              behaviour specs and proposed changes
     docs/                  challenge brief, TICKET-142, release procedure
+      fleet-discount.md    how the fleet discount works, and why
       known-bugs/          bugs for the sprint to address, one file each
     AGENTS.md, CLAUDE.md   instructions for AI coding agents
 
@@ -76,7 +77,8 @@ are in [openspec/specs/pricing/spec.md](openspec/specs/pricing/spec.md).
 
       List price
     - Trade discount       10% of list price, trade customers only
-    - Salesman discount    0-15% of the price after trade discount
+    - Fleet discount       4% of list price, fleet customers only
+    - Salesman discount    0-15% of the price after trade or fleet discount
     = Net price
     + Delivery             150.00
     + VAT                  20% of net price plus delivery
@@ -85,6 +87,10 @@ are in [openspec/specs/pricing/spec.md](openspec/specs/pricing/spec.md).
     = Total
 
 A salesman discount above 15% is reduced to 15%. There is no manager PIN.
+
+A customer is Retail, Trade or Fleet, and never both Trade and Fleet.
+[docs/fleet-discount.md](docs/fleet-discount.md) explains how to mark a fleet
+customer, and shows the screens.
 
 The in-app Help screen still says 5% trade discount and a manager PIN above
 10%. That text is out of date, and is left as it is because staff see it.

@@ -47,7 +47,7 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 - [x] 7.1 Add `docs/fleet-discount.md` explaining the feature and both product decisions, with captured prints of the BUG-002 behaviour before and after, a Trade customer being refused, and a fleet quote and invoice, and verify each print matches a fresh run of the app.
 - [x] 7.2 Update `BUG-002` with its before and after prints, the damaged-record warning and the `grep` command, set its status to Fixed in the file and the index, and verify the command finds a damaged row.
-- [ ] 7.3 Update the README pricing rules and customer type, and link `docs/fleet-discount.md`, and verify every statement against the app.
+- [x] 7.3 Update the README pricing rules and customer type, and link `docs/fleet-discount.md`, and verify every statement against the app.
 - [ ] 7.4 Update `AGENTS.md` by narrowing the blank-field trap to `stock.dat`, removing the customer label trap, replacing the invoice discount trap, and removing the TICKET-142 section now its decisions live in `design.md`, and verify `grep` finds no stale claims.
 
 ## 8. Final checks
