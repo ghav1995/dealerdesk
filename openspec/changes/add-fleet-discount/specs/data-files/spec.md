@@ -3,11 +3,12 @@
 ## MODIFIED Requirements
 
 ### Requirement: Record formats
-The system SHALL store one record per line, with fields separated by `|`, in the order listed here. Money SHALL be written with two decimal places.
+The system SHALL store one record per line, with fields separated by `|`, in the
+order listed here. Money SHALL be written with two decimal places.
 
 - `stock.dat`: id, plate, make, model, year, mileage, cost, price, status
 - `customers.dat`: id, name, phone, email, type, where type is R, T or F
-- `invoices.dat`: no, date, vehicle id, customer id, list, discount, net, VAT, fees, trade-in, total, and a twelfth field holding the fleet discount only on an invoice that has one
+- `invoices.dat`: no, date, vehicle id, customer id, list, discount, net, VAT, fees, trade-in, total, fleet discount if any
 - `next_ids.dat`: `vehicle=`, `customer=` and `invoice=` lines
 
 #### Scenario: Pipe typed into a field
