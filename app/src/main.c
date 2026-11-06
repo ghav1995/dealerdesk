@@ -434,7 +434,8 @@ static void sell_vehicle(void)
     i->veh_id = v->id;
     i->cust_id = c->id;
     i->list = q.list;
-    i->disc = q.trade_disc + q.disc;
+    i->disc = q.trade_disc + q.fleet_disc + q.disc;
+    i->fleet_disc = q.fleet_disc;
     i->net = q.net;
     i->vat = q.vat;
     i->fees = q.delivery + q.reg_fee;

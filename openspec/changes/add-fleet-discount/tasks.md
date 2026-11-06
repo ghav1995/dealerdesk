@@ -37,8 +37,8 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 ## 6. Fleet discount on invoices
 
-- [ ] 6.1 Write tests for `Fleet sale amounts`, `Fleet sale with every deduction`, `Invoice with a fleet discount has twelve fields`, `Invoice with no fleet discount keeps eleven fields` and `Earlier invoices are unchanged by a fleet sale`, and see them fail.
-- [ ] 6.2 Add `fleet_disc` to `INVOICE`, store it in `sell_vehicle`, and load and save it as a twelfth field only when above zero, and verify the tests pass and the `sales` baseline is unchanged.
+- [x] 6.1 Write tests for `Fleet sale amounts`, `Fleet sale with every deduction`, `Invoice with a fleet discount has twelve fields`, `Invoice with no fleet discount keeps eleven fields` and `Earlier invoices are unchanged by a fleet sale`, and see them fail.
+- [x] 6.2 Add `fleet_disc` to `INVOICE`, store it in `sell_vehicle`, and load and save it as a twelfth field only when above zero, and verify the tests pass and the `sales` baseline is unchanged.
 - [ ] 6.3 Write tests for `Fleet invoice with no other discount`, `Fleet invoice with another discount`, `Invoice preview for a fleet customer`, `Earlier invoice after a customer becomes fleet`, `Fleet invoice after fleet status is removed` and `Invoice from an earlier version`, and see the display ones fail.
 - [ ] 6.4 Show the fleet line in `view_invoice`, with the discounts line only for other discounts on a fleet invoice, and verify the tests pass and the `invoices` baseline is unchanged.
 - [ ] 6.5 Write the four `business-workflows` scenario tests and verify they pass, breaking a throwaway copy to confirm they can fail.

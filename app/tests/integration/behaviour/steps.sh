@@ -362,7 +362,8 @@ customer_column() {
 invoice_column() {
     case "$1" in
         date) echo 2 ;; vehicle) echo 3 ;; customer) echo 4 ;; list) echo 5 ;; discount) echo 6 ;;
-        net) echo 7 ;; VAT) echo 8 ;; fees) echo 9 ;; trade-in) echo 10 ;; total) echo 11 ;; *) return 1 ;;
+        net) echo 7 ;; VAT) echo 8 ;; fees) echo 9 ;; trade-in) echo 10 ;; total) echo 11 ;;
+        fleet) echo 12 ;; *) return 1 ;;
     esac
 }
 
@@ -438,6 +439,15 @@ then_step() {
         field_is invoices.dat "$id" "$column" "$want"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ is\ saved\ with\ today\'s\ date$ ]]; then
         field_is invoices.dat "${BASH_REMATCH[1]}" 2 "$(date +%F)"
+    elif [[ "$s" =~ ^invoice\ ([0-9]+)\ has\ ([0-9]+)\ fields$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(grep "^${BASH_REMATCH[1]}|" "$work/data/invoices.dat" | awk -F'|' '{ print NF }')"
+        [ "$got" = "$want" ] || fail_step "$s, but it has ${got:-no} fields"
+    elif [[ "$s" =~ ^record\ ([0-9]+)\ of\ ([a-z_]+\.dat)\ is\ unchanged$ ]]; then
+        local id="${BASH_REMATCH[1]}" file="${BASH_REMATCH[2]}" before after
+        before="$(grep "^$id|" "$start_data/data/$file")"
+        after="$(grep "^$id|" "$work/data/$file")"
+        [ -n "$before" ] && [ "$before" = "$after" ] || fail_step "$s, but it is now: $after"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ does\ not\ exist$ ]]; then
         ! grep -q "^${BASH_REMATCH[1]}|" "$work/data/invoices.dat" || fail_step "invoice exists"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ holds\ ([0-9]+)\ records$ ]]; then
