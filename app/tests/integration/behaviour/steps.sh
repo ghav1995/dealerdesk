@@ -368,6 +368,11 @@ field_is() {
     [ "$got" = "$want" ] || fail_step "$file record $id column $column is '$got', expected '$want'"
 }
 
+# Reads a fixed-width column of a line in the customer list, without its padding.
+listed_value() {
+    grep -E "^ *$1 " "$work/screen.txt" | head -1 | cut -c"$2" | sed 's/ *$//'
+}
+
 then_step() {
     local s="$1"
     if [[ "$s" =~ ^the\ screen\ shows\ \"(.*)\"$ ]]; then
@@ -402,6 +407,14 @@ then_step() {
         local id="${BASH_REMATCH[1]}" want="${BASH_REMATCH[3]}" column
         column="$(customer_column "${BASH_REMATCH[2]}")" || { fail_step "no step matches: $s"; return; }
         field_is customers.dat "$id" "$column" "$want"
+    elif [[ "$s" =~ ^customer\ ([0-9]+)\ is\ listed\ with\ phone\ \"(.*)\"$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(listed_value "${BASH_REMATCH[1]}" 36-49)"
+        [ "$got" = "$want" ] || fail_step "$s, but the list shows '$got'"
+    elif [[ "$s" =~ ^customer\ ([0-9]+)\ is\ listed\ with\ email\ \"(.*)\"$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(listed_value "${BASH_REMATCH[1]}" 51-78)"
+        [ "$got" = "$want" ] || fail_step "$s, but the list shows '$got'"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ is\ saved\ with\ ([A-Za-z-]+)\ \"(.*)\"$ ]]; then
         local id="${BASH_REMATCH[1]}" want="${BASH_REMATCH[3]}" column
         column="$(invoice_column "${BASH_REMATCH[2]}")" || { fail_step "no step matches: $s"; return; }

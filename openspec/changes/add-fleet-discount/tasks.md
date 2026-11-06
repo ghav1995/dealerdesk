@@ -12,9 +12,9 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 ## 2. Fix BUG-002: blank customer details
 
-- [ ] 2.1 Replace the two `Known bug: BUG-002` tests with `Trade customer with no email stays Trade`, `Trade customer with no phone stays Trade`, `Retail customer with no phone or email`, `Blank details are kept by a later save` and `Record damaged by the old bug`, and see the first four fail.
-- [ ] 2.2 Make `load_customers` keep empty fields, using a C89 helper in `dbfile.c`, and verify the new tests pass, the short and unusual record scenarios still pass, and all six baselines pass unchanged.
-- [ ] 2.3 Capture the after print of the BUG-002 scenario from the real app, using the steps in `design.md`, to use in group 7.
+- [x] 2.1 Replace the two `Known bug: BUG-002` tests with `Trade customer with no email stays Trade`, `Trade customer with no phone stays Trade`, `Retail customer with no phone or email`, `Blank details are kept by a later save` and `Record damaged by the old bug`, and see the first four fail.
+- [x] 2.2 Make `load_customers` keep empty fields, using a C89 helper in `dbfile.c`, and verify the new tests pass, the short and unusual record scenarios still pass, and all six baselines pass unchanged.
+- [x] 2.3 Capture the after print of the BUG-002 scenario from the real app, using the steps in `design.md`, to use in group 7.
 
 ## 3. Mark customers as fleet
 
