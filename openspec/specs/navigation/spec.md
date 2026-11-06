@@ -24,7 +24,7 @@ The system SHALL offer a submenu for stock, customers and invoices, and each SHA
 #### Scenario: Customers menu options
 - **GIVEN** the sample showroom data
 - **WHEN** staff choose Customers
-- **THEN** the menu offers 1 List customers, 2 Add customer, 3 Find customer and 0 Back
+- **THEN** the menu offers 1 List customers, 2 Add customer, 3 Find customer, 4 Mark / unmark fleet customer and 0 Back
 
 #### Scenario: Invoices menu options
 - **GIVEN** the sample showroom data
@@ -66,7 +66,7 @@ The system SHALL show "Invalid option" for a number that is not on the current m
 
 #### Scenario: Unknown option on the customers menu
 - **GIVEN** the sample showroom data
-- **WHEN** staff type 4 on the customers menu
+- **WHEN** staff type 5 on the customers menu
 - **THEN** the system shows "Invalid option"
 
 #### Scenario: Unknown option on the invoices menu
