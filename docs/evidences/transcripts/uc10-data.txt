@@ -1,0 +1,7 @@
+$ grep '^2008' data/customers.dat
+2008|Greenway Taxis|01632 960702|fleet@greenwaytaxis.example|F
+$ grep '^50233' data/invoices.dat
+50233|2026-11-06|1002|2008|10995.00|439.80|10555.20|2141.04|205.00|0.00|12901.24|439.80
+$ grep -E '^(2008|2009)' data/customers.dat
+2008|Greenway Taxis|01632 960702|fleet@greenwaytaxis.example|F
+2009|Rollback Customer|01632 960127|rollback@example.com|R

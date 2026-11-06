@@ -1,0 +1,11 @@
+==============================================================
+  DEALERDESK v2.7                                    Customers
+==============================================================
+
+  1. List customers
+  2. Add customer
+  3. Find customer
+  4. Mark / unmark fleet customer
+  0. Back
+
+  Option: 4

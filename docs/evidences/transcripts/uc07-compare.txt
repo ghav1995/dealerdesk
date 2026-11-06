@@ -1,0 +1,8 @@
+$ grep -c DEALERDESK session-v2.7.txt
+13
+$ diff session-v2.6.txt session-v2.7.txt | grep -E '^[<>]' | grep -c 'DEALERDESK v2\.[67]'
+26
+$ diff session-v2.6.txt session-v2.7.txt | grep -E '^[<>]' | grep -vc 'DEALERDESK v2\.[67]'
+0
+$ diff -r data-v2.6 data && echo 'all data files are identical'
+all data files are identical

@@ -1,0 +1,29 @@
+uc01-menu	Mark / unmark fleet customer
+uc01-list-before	Greenway Taxis .*Retail
+uc01-marked	Customer 2008 is now a fleet customer
+uc01-list-after	Greenway Taxis .*Fleet
+uc02-unmarked	Customer 2008 is no longer a fleet customer
+uc03-added	Fleet customer|Customer 2009 added
+uc03-list	Fleet Co .*Fleet
+uc03-trade	Trade customer
+uc04-refused	Trade customers cannot be fleet customers
+uc04-unknown	Customer not found
+uc05-simple	Fleet discount|Delivery|Registration fee|TOTAL
+uc05-deductions	Fleet discount|Discount \(|Trade-in +-|TOTAL
+uc05-limit	Fleet discount|Discount \(|TOTAL
+uc06-sale	Fleet discount|TOTAL|Invoice 50233 created
+uc06-invoice	Fleet discount|TOTAL
+uc06-invoice-deductions	Fleet discount|Discounts|Trade-in +-|TOTAL
+uc07-retail	List price|TOTAL
+uc07-trade-deductions	Trade discount|Discount \(|Trade-in +-|TOTAL
+uc07-compare	^0$|^all data files
+uc08-after	Discounts|TOTAL
+uc09-list	No Email Fleet .*Fleet
+uc09-quote	Customer :|Fleet discount|TOTAL
+uc10-old-quote	DEALERDESK v2\.6|Customer :|TOTAL
+uc10-old-invoice	DEALERDESK v2\.6|Discounts|TOTAL
+uc10-back-list	Greenway Taxis .*Fleet
+uc10-back-invoice	DEALERDESK v2\.7|Fleet discount|TOTAL
+uc10-cost-invoice	Discounts|TOTAL
+tests-all	^[^$].*(passed|spec scenarios)
+tests-wrong-rate	^[^$].*(FAIL|0\.05|[1-9][0-9]* failed)

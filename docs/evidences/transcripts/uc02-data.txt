@@ -1,0 +1,4 @@
+$ grep '^2008' data/customers.dat
+2008|Greenway Taxis|01632 960702|fleet@greenwaytaxis.example|R
+$ cmp data/customers.dat original/customers.dat && echo 'customers.dat matches the sample data again'
+customers.dat matches the sample data again

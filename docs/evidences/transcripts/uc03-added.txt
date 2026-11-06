@@ -1,0 +1,13 @@
+==============================================================
+  DEALERDESK v2.7                                 Add Customer
+==============================================================
+
+  Name   : Fleet Co
+  Phone  : 01632 960125
+  Email  : buying@fleetco.example
+  Trade customer (Y/N)? N
+  Fleet customer (Y/N)? Y
+
+  Customer 2009 added.
+
+  Press ENTER to continue...

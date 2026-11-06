@@ -1,0 +1,9 @@
+==============================================================
+  DEALERDESK v2.7                               Fleet Customer
+==============================================================
+
+  Customer ID : 2008
+
+  Customer 2008 is now a fleet customer.
+
+  Press ENTER to continue...

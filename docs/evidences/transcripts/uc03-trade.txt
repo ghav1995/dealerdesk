@@ -1,0 +1,12 @@
+==============================================================
+  DEALERDESK v2.7                                 Add Customer
+==============================================================
+
+  Name   : Trade Co
+  Phone  : 01632 960126
+  Email  : sales@tradeco.example
+  Trade customer (Y/N)? Y
+
+  Customer 2009 added.
+
+  Press ENTER to continue...

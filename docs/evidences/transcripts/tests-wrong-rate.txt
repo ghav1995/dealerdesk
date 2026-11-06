@@ -1,0 +1,20 @@
+$ grep -n 'list \* 0.05' app/src/calc.c
+34:        q->fleet_disc = rnd2(list * 0.05);
+$ make test-unit 2>&1 | grep FAIL | head -4
+  FAIL fleet: fleet_disc is 549.7500, expected 439.80
+  FAIL fleet: net is 10445.2500, expected 10555.20
+  FAIL fleet: vat is 2119.0500, expected 2141.04
+  FAIL fleet: total is 12769.3000, expected 12901.24
+$ make test-integration 2>&1 | tail -1
+6 passed, 0 failed
+$ make test-behaviour 2>&1 | grep -E '^FAIL  ' | head -8
+FAIL  New fleet customer buys a vehicle
+FAIL  Greenway becomes a fleet customer
+FAIL  Fleet customer with no email buys after a restart
+FAIL  Fleet customer with no email stays Fleet
+FAIL  Invoice with a fleet discount has twelve fields
+FAIL  Fleet sale amounts
+FAIL  Fleet sale with every deduction
+FAIL  Fleet invoice with no other discount
+$ make test-behaviour 2>&1 | grep -E '[0-9]+ passed, [1-9][0-9]* failed'
+201 passed, 18 failed

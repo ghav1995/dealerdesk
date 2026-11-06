@@ -1,6 +1,6 @@
 This standard disclaimer states that the work is entirely fictional and any resemblance to real people, places, or events is coincidental.
 
-# DealerDesk v2.7
+# DealerDesk v2.8
 
 Dealer management for the showroom: stock, customers, quotes and invoices. A
 menu-driven terminal application written in C.
@@ -16,6 +16,7 @@ menu-driven terminal application written in C.
     openspec/              behaviour specs and proposed changes
     docs/                  challenge brief, TICKET-142, release procedure
       fleet-discount.md    how the fleet discount works, and why
+      evidences/           fleet use cases, diagrams and images of the real app
       known-bugs/          bugs for the sprint to address, one file each
     AGENTS.md, CLAUDE.md   instructions for AI coding agents
 
@@ -90,7 +91,8 @@ A salesman discount above 15% is reduced to 15%. There is no manager PIN.
 
 A customer is Retail, Trade or Fleet, and never both Trade and Fleet.
 [docs/fleet-discount.md](docs/fleet-discount.md) explains how to mark a fleet
-customer, and shows the screens.
+customer, and shows the screens. [docs/evidences/](docs/evidences/README.md) walks
+through each use case with diagrams and images from the real app.
 
 The in-app Help screen still says 5% trade discount and a manager PIN above
 10%. That text is out of date, and is left as it is because staff see it.

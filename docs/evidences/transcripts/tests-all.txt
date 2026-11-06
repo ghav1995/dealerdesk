@@ -1,0 +1,5 @@
+$ make test 2>&1 | grep -E 'all pricing|[0-9] passed|spec scenarios'
+all pricing checks passed
+6 passed, 0 failed
+219 passed, 0 failed
+220 spec scenarios, 220 tests

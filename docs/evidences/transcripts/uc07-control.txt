@@ -1,0 +1,27 @@
+$ diff session-v2.6.txt session-control.txt | grep -E '^[<>]' | grep -v 'DEALERDESK v2\.[67]'
+<   Customer : Sarah Whitfield (Retail)
+>   Customer : Sarah Whitfield (Fleet)
+<   Net price                    10995.00
+>   Fleet discount                -439.80
+>   Net price                    10555.20
+<   VAT 20%                       2229.00
+>   VAT 20%                       2141.04
+<   TOTAL                        13429.00
+>   TOTAL                        12901.24
+<   Customer : Sarah Whitfield (Retail)
+>   Customer : Sarah Whitfield (Fleet)
+<   Net price                    10995.00
+>   Fleet discount                -439.80
+>   Net price                    10555.20
+<   VAT 20%                       2229.00
+>   VAT 20%                       2141.04
+<   TOTAL                        13429.00
+>   TOTAL                        12901.24
+<   Discounts                       -0.00
+<   Net price                    10995.00
+>   Fleet discount                -439.80
+>   Net price                    10555.20
+<   VAT                           2229.00
+>   VAT                           2141.04
+<   TOTAL                        13429.00
+>   TOTAL                        12901.24

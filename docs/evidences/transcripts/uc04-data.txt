@@ -1,0 +1,2 @@
+$ cmp data/customers.dat original/customers.dat && echo 'customers.dat is unchanged'
+customers.dat is unchanged

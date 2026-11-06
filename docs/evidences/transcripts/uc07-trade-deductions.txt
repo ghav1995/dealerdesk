@@ -1,0 +1,26 @@
+==============================================================
+  DEALERDESK v2.7                                        Quote
+==============================================================
+
+  Vehicle ID  : 1004
+  Customer ID : 2002
+  Discount %  : 10
+  Trade-in    : 500
+
+  QUOTATION (valid 7 days)
+  ----------------------------------------------
+  Customer : Marlow Motors Ltd (Trade)
+  Vehicle  : WR21 OLC Toyota Yaris 1.5 Hybrid Icon
+  ----------------------------------------------
+  List price                   16750.00
+  Trade discount               -1675.00
+  Discount (10.0%)             -1507.50
+  Net price                    13567.50
+  Delivery                       150.00
+  VAT 20%                       2743.50
+  Registration fee                55.00
+  Trade-in                      -500.00
+  ==============================================
+  TOTAL                        16016.00
+
+  Press ENTER to continue...
