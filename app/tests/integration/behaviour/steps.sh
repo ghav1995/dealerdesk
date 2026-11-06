@@ -336,6 +336,7 @@ label_for() {
         VAT) echo "VAT" ;;
         "registration fee") echo "Registration fee" ;;
         "trade discount") echo "Trade discount" ;;
+        "fleet discount") echo "Fleet discount" ;;
         discount) echo "Discount \\(" ;;
         discounts) echo "Discounts" ;;
         fees) echo "Fees" ;;
@@ -372,6 +373,11 @@ field_is() {
     [ "$got" = "$want" ] || fail_step "$file record $id column $column is '$got', expected '$want'"
 }
 
+# Gives the line number of the first line on the screen starting with this text.
+line_number() {
+    grep -n -E "^ *$1" "$work/screen.txt" | head -1 | cut -d: -f1
+}
+
 # Reads a fixed-width column of a line in the customer list, without its padding.
 listed_value() {
     grep -E "^ *$1 " "$work/screen.txt" | head -1 | cut -c"$2" | sed 's/ *$//'
@@ -395,6 +401,13 @@ then_step() {
         local label amount="${BASH_REMATCH[3]}"
         label="$(label_for "${BASH_REMATCH[1]}")" || { fail_step "no step matches: $s"; return; }
         line_is "$label" "$amount" || fail_step "$s, but the screen shows: $(grep -E "^ *$label" "$work/screen.txt" | head -1)"
+    elif [[ "$s" =~ ^the\ \"(.*)\"\ line\ is\ between\ \"(.*)\"\ and\ \"(.*)\"$ ]]; then
+        local middle first last
+        middle="$(line_number "${BASH_REMATCH[1]}")"
+        first="$(line_number "${BASH_REMATCH[2]}")"
+        last="$(line_number "${BASH_REMATCH[3]}")"
+        [ "${first:-0}" -lt "${middle:-0}" ] && [ "${middle:-0}" -lt "${last:-0}" ] \
+            || fail_step "$s, but the lines are at ${first:-none}, ${middle:-none} and ${last:-none}"
     elif [[ "$s" =~ ^there\ is\ no\ (.+)\ line$ ]]; then
         local label
         label="$(label_for "${BASH_REMATCH[1]}")" || { fail_step "no step matches: $s"; return; }

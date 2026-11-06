@@ -32,8 +32,8 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 - [x] 5.1 Add unit tests to `test_calc.c` for type `F`, using the worked amounts in the pricing spec and proving retail and trade results do not change, and see them fail.
 - [x] 5.2 Add `fleet_disc` to `QUOTE` and calculate it in `calc_quote`, applying the salesman discount after it, and verify the unit tests pass and all six baselines pass unchanged.
-- [ ] 5.3 Write the fleet scenario tests for `pricing` and `quotes`, including `Discount after fleet discount`, `Fleet discount does not use up the salesman limit`, `Fleet quote heading` and `Fleet customer with no email stays Fleet`, and see the ones that depend on the screen fail.
-- [ ] 5.4 Show the "Fleet discount" line and the Fleet label in `print_quote`, and verify the tests pass and all six baselines pass unchanged.
+- [x] 5.3 Write the fleet scenario tests for `pricing` and `quotes`, including `Discount after fleet discount`, `Fleet discount does not use up the salesman limit`, `Fleet quote heading` and `Fleet customer with no email stays Fleet`, and see the ones that depend on the screen fail.
+- [x] 5.4 Show the "Fleet discount" line and the Fleet label in `print_quote`, and verify the tests pass and all six baselines pass unchanged.
 
 ## 6. Fleet discount on invoices
 
