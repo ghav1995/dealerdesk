@@ -1,0 +1,9 @@
+==============================================================
+  DEALERDESK v2.7                               Fleet Customer
+==============================================================
+
+  Customer ID : 2002
+
+  Trade customers cannot be fleet customers.
+
+  Press ENTER to continue...

@@ -1,0 +1,9 @@
+$ cmp invoice-before.txt invoice-after.txt && echo 'invoice 50232 reads the same before and after'
+invoice 50232 reads the same before and after
+$ head -3 data/invoices.dat | cmp - original/invoices.dat && echo 'invoices 50230, 50231 and 50232 are byte-identical'
+invoices 50230, 50231 and 50232 are byte-identical
+$ awk -F'|' '{ print $1, NF, "fields" }' data/invoices.dat
+50230 11 fields
+50231 11 fields
+50232 11 fields
+50233 12 fields

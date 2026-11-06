@@ -1,0 +1,2 @@
+$ grep '^2009' data/customers.dat
+2009|No Email Fleet|01632 960123||F

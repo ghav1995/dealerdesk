@@ -1,0 +1,25 @@
+==============================================================
+  DEALERDESK v2.7                                        Quote
+==============================================================
+
+  Vehicle ID  : 1007
+  Customer ID : 2008
+  Discount %  : 20
+  Trade-in    : 
+
+  QUOTATION (valid 7 days)
+  ----------------------------------------------
+  Customer : Greenway Taxis (Fleet)
+  Vehicle  : GJ19 VLA Skoda Octavia Estate 2.0 TDI SE
+  ----------------------------------------------
+  List price                   12750.00
+  Fleet discount                -510.00
+  Discount (15.0%)             -1836.00
+  Net price                    10404.00
+  Delivery                       150.00
+  VAT 20%                       2110.80
+  Registration fee                55.00
+  ==============================================
+  TOTAL                        12719.80
+
+  Press ENTER to continue...

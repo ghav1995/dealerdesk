@@ -1,0 +1,3 @@
+$ bash app/tests/integration/behaviour/check-coverage.sh --strict && echo 'every spec scenario has a test'
+220 spec scenarios, 220 tests
+every spec scenario has a test

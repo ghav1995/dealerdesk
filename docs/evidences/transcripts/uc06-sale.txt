@@ -1,0 +1,28 @@
+==============================================================
+  DEALERDESK v2.7                                 Sell Vehicle
+==============================================================
+
+  Vehicle ID  : 1002
+  Customer ID : 2008
+  Discount %  : 
+  Trade-in    : 
+
+  INVOICE PREVIEW
+  ----------------------------------------------
+  Customer : Greenway Taxis (Fleet)
+  Vehicle  : yf20 hbn Vauxhall Corsa 1.2 SE
+  ----------------------------------------------
+  List price                   10995.00
+  Fleet discount                -439.80
+  Net price                    10555.20
+  Delivery                       150.00
+  VAT 20%                       2141.04
+  Registration fee                55.00
+  ==============================================
+  TOTAL                        12901.24
+
+  Confirm sale (Y/N)? Y
+
+  Invoice 50233 created.
+
+  Press ENTER to continue...

@@ -1,0 +1,23 @@
+==============================================================
+  DEALERDESK v2.7                                        Quote
+==============================================================
+
+  Vehicle ID  : 1002
+  Customer ID : 2001
+  Discount %  : 
+  Trade-in    : 
+
+  QUOTATION (valid 7 days)
+  ----------------------------------------------
+  Customer : Sarah Whitfield (Retail)
+  Vehicle  : yf20 hbn Vauxhall Corsa 1.2 SE
+  ----------------------------------------------
+  List price                   10995.00
+  Net price                    10995.00
+  Delivery                       150.00
+  VAT 20%                       2229.00
+  Registration fee                55.00
+  ==============================================
+  TOTAL                        13429.00
+
+  Press ENTER to continue...

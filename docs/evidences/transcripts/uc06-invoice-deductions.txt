@@ -1,0 +1,22 @@
+==============================================================
+  DEALERDESK v2.7                                 View Invoice
+==============================================================
+
+  Invoice no : 50234
+
+  INVOICE 50234    Date: 2026-11-06
+  ----------------------------------------------
+  Customer : Greenway Taxis
+  Vehicle  : GJ19 VLA Skoda Octavia Estate 2.0 TDI SE
+  ----------------------------------------------
+  List price                   12750.00
+  Fleet discount                -510.00
+  Discounts                     -612.00
+  Net price                    11628.00
+  Fees                           205.00
+  VAT                           2355.60
+  Trade-in                     -1000.00
+  ==============================================
+  TOTAL                        13188.60
+
+  Press ENTER to continue...

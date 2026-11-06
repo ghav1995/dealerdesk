@@ -1,0 +1,2 @@
+$ grep '^2009' data/customers.dat
+2009|Fleet Co|01632 960125|buying@fleetco.example|F
