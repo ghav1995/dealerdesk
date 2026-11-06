@@ -25,8 +25,8 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 ## 4. Ask the fleet question
 
-- [ ] 4.1 Write tests for `Fleet customer added`, `Trade customer is not asked the fleet question` and `Blank answer to the fleet question`, teach the add-customer step to answer the fleet question, and see the new tests fail.
-- [ ] 4.2 Add the question to `add_customer`, add its answer to `customers.keys`, re-record only `expected/customers.txt`, and verify its diff contains only the new prompt and the other five baselines are unchanged.
+- [x] 4.1 Write tests for `Fleet customer added`, `Trade customer is not asked the fleet question` and `Blank answer to the fleet question`, teach the add-customer step to answer the fleet question, and see the new tests fail.
+- [x] 4.2 Add the question to `add_customer`, add its answer to `customers.keys`, re-record only `expected/customers.txt`, and verify its diff contains only the new prompt and the other five baselines are unchanged.
 
 ## 5. Fleet discount on quotes
 

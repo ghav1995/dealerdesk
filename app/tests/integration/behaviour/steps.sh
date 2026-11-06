@@ -185,6 +185,7 @@ read_fields() {
             phone) f_phone="${BASH_REMATCH[3]}" ;;
             email) f_email="${BASH_REMATCH[3]}" ;;
             "trade answer") f_trade="${BASH_REMATCH[3]}" ;;
+            "fleet answer") f_fleet="${BASH_REMATCH[3]}" ;;
             *) return 1 ;;
         esac
         rest="${BASH_REMATCH[5]}"
@@ -199,9 +200,10 @@ add_vehicle() {
 }
 
 add_customer() {
-    f_name="Test Customer" f_phone="01632 960000" f_email="test@example.com" f_trade=N
+    f_name="Test Customer" f_phone="01632 960000" f_email="test@example.com" f_trade=N f_fleet=N
     read_fields "$1" || { fail_step "cannot read: $1"; return; }
-    session 2 2 "$f_name" "$f_phone" "$f_email" "$f_trade"
+    # A trade customer is not asked the fleet question, so its answer goes to the pause.
+    session 2 2 "$f_name" "$f_phone" "$f_email" "$f_trade" "$f_fleet"
 }
 
 # Reads the discount and trade-in from the end of a quote or sale sentence.
