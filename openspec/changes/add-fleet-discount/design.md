@@ -159,9 +159,13 @@ The scenario step for adding a customer must answer the fleet question, or input
 | v2.7, customer type `F` | v2.6 | Shows as Retail with no discount, and the `F` survives its saves |
 | v2.7, invoice with twelve fields | v2.6 | Reads the first eleven. Net, VAT and total are correct, and discounts show as one amount |
 | v2.7, invoice saved again by v2.6 | v2.6 or v2.7 | v2.6 drops the twelfth field, so that invoice loses its separate fleet line. All amounts stay correct |
-| v2.7, blank phone or email | v2.6 | Misread as it is today, because that is the bug |
+| v2.7, blank phone or email | v2.6 | Misread as it is today, and v2.6's next customer save damages the record, because that is the bug |
+
+Every row was confirmed by running v2.6 on files written by v2.7, then returning to v2.7. `docs/fleet-discount.md` shows the prints.
 
 The fourth row is a real but small loss: if v2.6 saves after a rollback, fleet invoices show their discount in the combined line. No money changes, and rule 3's limit on an old binary dropping unknown fields makes this unavoidable with an appended field.
+
+The fifth row is the existing bug returning with the old version, and running the rollback showed it is worse than a misread. A trade or fleet customer with a blank field keeps their type on v2.7, but v2.6 rewrites the record as soon as it saves a customer. After any rollback, the `grep` command in `docs/fleet-discount.md` finds these rows.
 
 While rolled back to v2.6, fleet customers get no automatic discount. Staff would need to apply it by hand until v2.7 returns.
 

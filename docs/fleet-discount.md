@@ -236,6 +236,67 @@ To correct a row, check the customer's real details, close the app, and edit the
 2100|Old Trade Ltd|01632 960123||T
 ```
 
+## Rolling back to v2.6
+
+The data files stay compatible both ways, so `docs/RELEASE.txt` still works. This was tested by running the real v2.6 on files written by this version, then returning to this version. The prints below show only the lines that matter.
+
+| What v2.6 meets | What happens |
+|---|---|
+| A fleet customer | Shows as Retail with no discount, and stays fleet in the file |
+| A fleet invoice | Net, VAT and total are correct, and all discounts show as one line |
+| Saving invoices | The fleet invoice loses its separate fleet line. Its amounts stay correct |
+| A customer with a blank phone or email | Misread as before, and the next customer save damages the record |
+
+**Customers.** v2.6 shows Greenway as Retail, so they get no automatic discount until this version returns:
+
+```text
+  2008  Greenway Taxis             01632 960702   fleet@greenwaytaxis.example  Retail
+```
+
+The `F` stays in the file through v2.6's saves, so Greenway is Fleet again after returning:
+
+```text
+2008|Greenway Taxis|01632 960702|fleet@greenwaytaxis.example|F
+```
+
+```text
+  2008  Greenway Taxis             01632 960702   fleet@greenwaytaxis.example  Fleet
+```
+
+**Invoices.** v2.6 shows a fleet invoice with all its discounts on one line, and the amounts still add up:
+
+```text
+  INVOICE 50233    Date: 2026-11-06
+  Discounts                    -1122.00
+  Net price                    11628.00
+  VAT                           2355.60
+  TOTAL                        14188.60
+```
+
+If v2.6 then saves any invoice, it drops the twelfth field:
+
+```text
+50233|2026-11-06|1007|2008|12750.00|1122.00|11628.00|2355.60|205.00|0.00|14188.60|510.00
+```
+
+```text
+50233|2026-11-06|1007|2008|12750.00|1122.00|11628.00|2355.60|205.00|0.00|14188.60
+```
+
+No money changes, but that invoice keeps showing one discounts line after returning to this version.
+
+**Customers with a blank phone or email.** This is BUG-002 returning with the old version. Its next customer save damages their record:
+
+```text
+2009|No Email Ltd|01632 960123||T
+```
+
+```text
+2009|No Email Ltd|01632 960123|T|R
+```
+
+After any rollback, run the `grep` command above and correct what it finds. While on v2.6, staff would need to give fleet customers their discount by hand.
+
 ## After release
 
 1. Mark Greenway Taxis (2008) as a fleet customer. Their earlier invoice does not change.
