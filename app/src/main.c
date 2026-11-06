@@ -208,11 +208,20 @@ static void stock_menu(void)
 
 /* -------------------------------------------------------- CUSTOMERS */
 
+static const char *type_txt(char type)
+{
+    if (type == 'T')
+        return "Trade";
+    if (type == 'F')
+        return "Fleet";
+    return "Retail";
+}
+
 static void print_cust_row(CUSTOMER *c)
 {
     printf("  %-5d %-26.26s %-14s %-28.28s %s\n",
            c->id, c->name, c->phone, c->email,
-           c->type == 'T' ? "Trade" : "Retail");
+           type_txt(c->type));
 }
 
 static void list_customers(void)
@@ -243,6 +252,8 @@ static void add_customer(void)
     read_line("  Phone  : ", c.phone, sizeof c.phone);
     read_line("  Email  : ", c.email, sizeof c.email);
     c.type = confirm("  Trade customer (Y/N)? ") ? 'T' : 'R';
+    if (c.type == 'R' && confirm("  Fleet customer (Y/N)? "))
+        c.type = 'F';
 
     if (c.name[0] == 0) {
         printf("\n  Name is required.\n");
@@ -275,6 +286,28 @@ static void find_customer(void)
     pause_enter();
 }
 
+static void mark_fleet(void)
+{
+    CUSTOMER *c;
+
+    header("Fleet Customer");
+    c = find_cust(read_int("  Customer ID : "));
+    if (!c) {
+        printf("\n  Customer not found.\n");
+    } else if (c->type == 'T') {
+        printf("\n  Trade customers cannot be fleet customers.\n");
+    } else if (c->type == 'F') {
+        c->type = 'R';
+        save_customers();
+        printf("\n  Customer %d is no longer a fleet customer.\n", c->id);
+    } else {
+        c->type = 'F';
+        save_customers();
+        printf("\n  Customer %d is now a fleet customer.\n", c->id);
+    }
+    pause_enter();
+}
+
 static void customer_menu(void)
 {
     int opt;
@@ -284,12 +317,14 @@ static void customer_menu(void)
         printf("  1. List customers\n");
         printf("  2. Add customer\n");
         printf("  3. Find customer\n");
+        printf("  4. Mark / unmark fleet customer\n");
         printf("  0. Back\n\n");
         opt = read_int("  Option: ");
         switch (opt) {
         case 1: list_customers(); break;
         case 2: add_customer(); break;
         case 3: find_customer(); break;
+        case 4: mark_fleet(); break;
         case 0: return;
         default:
             printf("  Invalid option\n");
@@ -333,12 +368,14 @@ static void print_quote(const char *title, QUOTE *q, VEHICLE *v, CUSTOMER *c)
 {
     printf("\n  %s\n", title);
     printf("  ----------------------------------------------\n");
-    printf("  Customer : %s (%s)\n", c->name, c->type == 'T' ? "Trade" : "Retail");
+    printf("  Customer : %s (%s)\n", c->name, type_txt(c->type));
     printf("  Vehicle  : %s %s %s\n", v->plate, v->make, v->model);
     printf("  ----------------------------------------------\n");
     printf("  List price               %12.2f\n", q->list);
     if (q->trade_disc > 0)
         printf("  Trade discount           %12.2f\n", -q->trade_disc);
+    if (q->fleet_disc > 0)
+        printf("  Fleet discount           %12.2f\n", -q->fleet_disc);
     if (q->disc > 0)
         printf("  Discount (%4.1f%%)         %12.2f\n", q->disc_pct, -q->disc);
     printf("  Net price                %12.2f\n", q->net);
@@ -397,7 +434,8 @@ static void sell_vehicle(void)
     i->veh_id = v->id;
     i->cust_id = c->id;
     i->list = q.list;
-    i->disc = q.trade_disc + q.disc;
+    i->disc = q.trade_disc + q.fleet_disc + q.disc;
+    i->fleet_disc = q.fleet_disc;
     i->net = q.net;
     i->vat = q.vat;
     i->fees = q.delivery + q.reg_fee;
@@ -436,6 +474,7 @@ static void list_invoices(void)
 static void view_invoice(void)
 {
     int no, i;
+    double other;
     INVOICE *p = NULL;
     VEHICLE *v;
     CUSTOMER *c;
@@ -458,7 +497,14 @@ static void view_invoice(void)
     printf("  Vehicle  : %s %s %s\n", v ? v->plate : "?", v ? v->make : "", v ? v->model : "");
     printf("  ----------------------------------------------\n");
     printf("  List price               %12.2f\n", p->list);
-    printf("  Discounts                %12.2f\n", -p->disc);
+    if (p->fleet_disc > 0) {
+        printf("  Fleet discount           %12.2f\n", -p->fleet_disc);
+        other = rnd2(p->disc - p->fleet_disc);
+        if (other > 0)
+            printf("  Discounts                %12.2f\n", -other);
+    } else {
+        printf("  Discounts                %12.2f\n", -p->disc);
+    }
     printf("  Net price                %12.2f\n", p->net);
     printf("  Fees                     %12.2f\n", p->fees);
     printf("  VAT                      %12.2f\n", p->vat);

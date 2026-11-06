@@ -37,6 +37,7 @@ Run these from the repository root, on Linux, macOS or WSL.
                              each sentence does
     openspec/specs/          what the system does today
     openspec/changes/        proposed changes, one folder each
+    docs/fleet-discount.md   how the fleet discount works, with the decisions behind it
     docs/known-bugs/         bugs for the sprint, one file each, indexed by severity
     .github/workflows/       ci.yml runs make test. cd.yml starts from a version tag,
                              runs it, then deploys that tag to simulated dev, test,
@@ -184,17 +185,13 @@ Every known bug is in `docs/known-bugs/`, with a `Known bug:` scenario that asse
 app does today. That test passes while the bug exists, so a fix must change the test, the
 spec and the bug's file on purpose.
 
-- **Blank fields shift columns.** `dbfile.c` splits with `strtok`, which skips
-  empty fields, and `add_customer` only requires a name. `id|name|phone||T` loads
-  with email `T` and falls back to type `R`, so a trade customer with no email
-  loses their discount after a restart. Anything stored after an optional field
-  is at risk.
-- **Customer type labels are hard-coded.** `print_cust_row` and `print_quote` use
-  `type == 'T' ? "Trade" : "Retail"`, so any new type prints as Retail until both
-  change.
-- **Invoices keep one combined discount.** `INVOICE.disc` is the trade and
-  salesman discounts added together. The quote screen shows them separately, but
-  the invoice screen can only show the total.
+- **Blank fields still shift columns in `stock.dat`.** `load_stock` splits with
+  `strtok`, which skips empty fields, so a blank make or model moves every later
+  field along and the price reads as 0.00 after a restart (BUG-001). `load_customers`
+  uses `next_field`, which keeps them. Use it for anything with an optional field.
+- **`INVOICE.disc` holds every discount added together.** That includes any fleet
+  discount, which is also stored on its own in `fleet_disc`. The invoice screen
+  cannot separate trade and salesman discounts.
 - **`save_*` rewrites whole files.** An old binary drops any field it does not
   know about the moment it saves.
 - **Reserved vehicles can still be sold.** `build_quote` only blocks sold vehicles.
@@ -204,30 +201,6 @@ spec and the bug's file on purpose.
   become menu choices and a stray `0` exits the app, and the rest of the scenario
   never runs. When adding a scenario, check its last step is in `expected/`, and
   break the code on purpose to confirm the scenario fails.
-
-## TICKET-142: what the change must settle
-
-Fleet is the next change. Its design must decide these points explicitly:
-
-- **How fleet is stored.** A new customer type `F` keeps the file format and
-  passes through a rollback, but cannot be combined with Trade. A new field can be
-  combined, but an old binary drops it when it saves.
-- **Marking existing customers.** No edit-customer screen exists. Greenway Taxis
-  (2008) needs one, and the new prompts must not disturb existing flows.
-- **Trade customers marked as fleet.** Decide between refusing, replacing or
-  stacking. The ticket does not say.
-- **Order of calculation.** 4% of list price, rounded with `rnd2()`, like the trade
-  discount. The salesman discount then applies to what is left. It must not count
-  towards the 15% limit, since saving that allowance is the point of the ticket.
-- **The invoice screen.** A "Fleet discount" line needs the amount stored with the
-  invoice, in an appended field. Rows without it mean no fleet discount.
-- **Invoice 50232.** Greenway's 8% hand discount from 2021 must keep displaying
-  exactly as it does now, even after Greenway becomes a fleet customer.
-- **The blank-field trap.** A fleet customer with no email must stay fleet after a
-  restart.
-
-The test for "unchanged to the penny" is the integration baseline: it was recorded
-before the ticket, so non-fleet scenarios must pass without being re-recorded.
 
 ## Definition of done
 

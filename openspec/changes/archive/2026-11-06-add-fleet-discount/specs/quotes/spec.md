@@ -1,0 +1,46 @@
+# Spec Delta
+
+## MODIFIED Requirements
+
+### Requirement: Quote contents
+The system SHALL show the title "QUOTATION (valid 7 days)", the customer and their type, the vehicle, and every amount from list price to total.
+
+#### Scenario: Retail quote heading
+- **GIVEN** the sample showroom data
+- **WHEN** staff quote vehicle 1002 for customer 2001
+- **THEN** the quote is titled "QUOTATION (valid 7 days)"
+- **AND** shows the customer as Sarah Whitfield (Retail) and the vehicle as yf20 hbn Vauxhall Corsa 1.2 SE
+
+#### Scenario: Trade quote heading
+- **GIVEN** the sample showroom data
+- **WHEN** staff quote vehicle 1004 for customer 2002
+- **THEN** the quote shows the customer as Marlow Motors Ltd (Trade)
+
+#### Scenario: Fleet quote heading
+- **GIVEN** Greenway Taxis (2008) marked as a fleet customer
+- **WHEN** staff quote vehicle 1002 for customer 2008
+- **THEN** the quote shows the customer as Greenway Taxis (Fleet)
+
+#### Scenario: Quote lines
+- **GIVEN** the sample showroom data
+- **WHEN** staff quote vehicle 1002 for customer 2001 with no discount and no trade-in
+- **THEN** the quote shows list price 10995.00, net price 10995.00, delivery 150.00, VAT 2229.00, registration fee 55.00 and total 13429.00
+
+### Requirement: Optional quote lines
+The system SHALL show a trade discount, fleet discount, salesman discount or trade-in line only when that amount applies.
+
+#### Scenario: No optional lines
+- **GIVEN** the sample showroom data
+- **WHEN** staff quote vehicle 1002 for customer 2001 with no discount and no trade-in
+- **THEN** the quote has no trade discount line, no fleet discount line, no discount line and no trade-in line
+
+#### Scenario: All optional lines
+- **GIVEN** the sample showroom data
+- **WHEN** staff quote vehicle 1004 for customer 2002 with 10% discount and a 500.00 trade-in
+- **THEN** the quote shows trade discount -1675.00, discount (10.0%) -1507.50 and trade-in -500.00
+
+#### Scenario: Fleet discount line
+- **GIVEN** Greenway Taxis (2008) marked as a fleet customer
+- **WHEN** staff quote vehicle 1002 for customer 2008
+- **THEN** the quote shows a line labelled "Fleet discount" with -439.80, between the list price and the net price
+- **AND** the quote has no trade discount line

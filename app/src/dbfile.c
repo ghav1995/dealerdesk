@@ -18,6 +18,28 @@ static void cpy(char *d, const char *s, int n)
     d[n - 1] = 0;
 }
 
+/*
+ * Returns the next | separated field and moves *line past it, or NULL when there
+ * are no more. Unlike strtok it keeps empty fields, so a blank value cannot shift
+ * the fields after it into the wrong columns.
+ */
+static char *next_field(char **line)
+{
+    char *start = *line;
+    char *end;
+
+    if (!start)
+        return NULL;
+    end = strchr(start, '|');
+    if (end) {
+        *end = 0;
+        *line = end + 1;
+    } else {
+        *line = NULL;
+    }
+    return start;
+}
+
 static void load_stock(void)
 {
     FILE *f;
@@ -63,6 +85,7 @@ static void load_customers(void)
 {
     FILE *f;
     char line[512];
+    char *p;
     char *t;
     CUSTOMER *c;
 
@@ -72,21 +95,16 @@ static void load_customers(void)
         return;
     while (fgets(line, sizeof line, f) && ncust < MAX_CUST) {
         line[strcspn(line, "\r\n")] = 0;
-        if (line[0] == 0 || line[0] == '#')
+        if (line[0] == '#' || line[strspn(line, "|")] == 0)
             continue;
         c = &cust[ncust];
-        t = strtok(line, "|");
-        if (!t)
-            continue;
-        c->id = atoi(t);
-        t = strtok(NULL, "|");
-        cpy(c->name, t, sizeof c->name);
-        t = strtok(NULL, "|");
-        cpy(c->phone, t, sizeof c->phone);
-        t = strtok(NULL, "|");
-        cpy(c->email, t, sizeof c->email);
-        t = strtok(NULL, "|");
-        c->type = t ? t[0] : 'R';
+        p = line;
+        c->id = atoi(next_field(&p));
+        cpy(c->name, next_field(&p), sizeof c->name);
+        cpy(c->phone, next_field(&p), sizeof c->phone);
+        cpy(c->email, next_field(&p), sizeof c->email);
+        t = next_field(&p);
+        c->type = (t && t[0]) ? t[0] : 'R';
         ncust++;
     }
     fclose(f);
@@ -132,6 +150,8 @@ static void load_invoices(void)
         i->tradein = t ? atof(t) : 0;
         t = strtok(NULL, "|");
         i->total = t ? atof(t) : 0;
+        t = strtok(NULL, "|");
+        i->fleet_disc = t ? atof(t) : 0;
         ninv++;
     }
     fclose(f);
@@ -206,11 +226,16 @@ void save_invoices(void)
         printf("  ERROR: cannot write invoices.dat\n");
         return;
     }
-    for (i = 0; i < ninv; i++)
-        fprintf(f, "%d|%s|%d|%d|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f\n",
+    for (i = 0; i < ninv; i++) {
+        fprintf(f, "%d|%s|%d|%d|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f",
                 inv[i].no, inv[i].date, inv[i].veh_id, inv[i].cust_id,
                 inv[i].list, inv[i].disc, inv[i].net, inv[i].vat,
                 inv[i].fees, inv[i].tradein, inv[i].total);
+        /* only when there is one, so other invoices keep their eleven fields */
+        if (inv[i].fleet_disc > 0)
+            fprintf(f, "|%.2f", inv[i].fleet_disc);
+        fprintf(f, "\n");
+    }
     fclose(f);
 }
 

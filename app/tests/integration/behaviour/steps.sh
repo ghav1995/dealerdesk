@@ -185,6 +185,7 @@ read_fields() {
             phone) f_phone="${BASH_REMATCH[3]}" ;;
             email) f_email="${BASH_REMATCH[3]}" ;;
             "trade answer") f_trade="${BASH_REMATCH[3]}" ;;
+            "fleet answer") f_fleet="${BASH_REMATCH[3]}" ;;
             *) return 1 ;;
         esac
         rest="${BASH_REMATCH[5]}"
@@ -199,9 +200,10 @@ add_vehicle() {
 }
 
 add_customer() {
-    f_name="Test Customer" f_phone="01632 960000" f_email="test@example.com" f_trade=N
+    f_name="Test Customer" f_phone="01632 960000" f_email="test@example.com" f_trade=N f_fleet=N
     read_fields "$1" || { fail_step "cannot read: $1"; return; }
-    session 2 2 "$f_name" "$f_phone" "$f_email" "$f_trade"
+    # A trade customer is not asked the fleet question, so its answer goes to the pause.
+    session 2 2 "$f_name" "$f_phone" "$f_email" "$f_trade" "$f_fleet"
 }
 
 # Reads the discount and trade-in from the end of a quote or sale sentence.
@@ -283,6 +285,8 @@ action_step() {
         session 1 5 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ reserve\ or\ release\ vehicle\ ([0-9]+)$ ]]; then
         session 1 6 "${BASH_REMATCH[1]}"
+    elif [[ "$s" =~ ^I\ mark\ customer\ ([0-9]+)\ as\ a\ fleet\ customer$ ]]; then
+        session 2 4 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ try\ to\ quote\ vehicle\ ([0-9a-z]+)$ ]]; then
         session 3 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ try\ to\ quote\ vehicle\ ([0-9a-z]+)\ for\ customer\ ([0-9a-z]+)$ ]]; then
@@ -332,6 +336,7 @@ label_for() {
         VAT) echo "VAT" ;;
         "registration fee") echo "Registration fee" ;;
         "trade discount") echo "Trade discount" ;;
+        "fleet discount") echo "Fleet discount" ;;
         discount) echo "Discount \\(" ;;
         discounts) echo "Discounts" ;;
         fees) echo "Fees" ;;
@@ -357,7 +362,8 @@ customer_column() {
 invoice_column() {
     case "$1" in
         date) echo 2 ;; vehicle) echo 3 ;; customer) echo 4 ;; list) echo 5 ;; discount) echo 6 ;;
-        net) echo 7 ;; VAT) echo 8 ;; fees) echo 9 ;; trade-in) echo 10 ;; total) echo 11 ;; *) return 1 ;;
+        net) echo 7 ;; VAT) echo 8 ;; fees) echo 9 ;; trade-in) echo 10 ;; total) echo 11 ;;
+        fleet) echo 12 ;; *) return 1 ;;
     esac
 }
 
@@ -366,6 +372,16 @@ field_is() {
     local file="$1" id="$2" column="$3" want="$4" got
     got="$(grep "^$id|" "$work/data/$file" | head -1 | cut -d'|' -f"$column")"
     [ "$got" = "$want" ] || fail_step "$file record $id column $column is '$got', expected '$want'"
+}
+
+# Gives the line number of the first line on the screen starting with this text.
+line_number() {
+    grep -n -E "^ *$1" "$work/screen.txt" | head -1 | cut -d: -f1
+}
+
+# Reads a fixed-width column of a line in the customer list, without its padding.
+listed_value() {
+    grep -E "^ *$1 " "$work/screen.txt" | head -1 | cut -c"$2" | sed 's/ *$//'
 }
 
 then_step() {
@@ -386,6 +402,13 @@ then_step() {
         local label amount="${BASH_REMATCH[3]}"
         label="$(label_for "${BASH_REMATCH[1]}")" || { fail_step "no step matches: $s"; return; }
         line_is "$label" "$amount" || fail_step "$s, but the screen shows: $(grep -E "^ *$label" "$work/screen.txt" | head -1)"
+    elif [[ "$s" =~ ^the\ \"(.*)\"\ line\ is\ between\ \"(.*)\"\ and\ \"(.*)\"$ ]]; then
+        local middle first last
+        middle="$(line_number "${BASH_REMATCH[1]}")"
+        first="$(line_number "${BASH_REMATCH[2]}")"
+        last="$(line_number "${BASH_REMATCH[3]}")"
+        [ "${first:-0}" -lt "${middle:-0}" ] && [ "${middle:-0}" -lt "${last:-0}" ] \
+            || fail_step "$s, but the lines are at ${first:-none}, ${middle:-none} and ${last:-none}"
     elif [[ "$s" =~ ^there\ is\ no\ (.+)\ line$ ]]; then
         local label
         label="$(label_for "${BASH_REMATCH[1]}")" || { fail_step "no step matches: $s"; return; }
@@ -402,12 +425,29 @@ then_step() {
         local id="${BASH_REMATCH[1]}" want="${BASH_REMATCH[3]}" column
         column="$(customer_column "${BASH_REMATCH[2]}")" || { fail_step "no step matches: $s"; return; }
         field_is customers.dat "$id" "$column" "$want"
+    elif [[ "$s" =~ ^customer\ ([0-9]+)\ is\ listed\ with\ phone\ \"(.*)\"$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(listed_value "${BASH_REMATCH[1]}" 36-49)"
+        [ "$got" = "$want" ] || fail_step "$s, but the list shows '$got'"
+    elif [[ "$s" =~ ^customer\ ([0-9]+)\ is\ listed\ with\ email\ \"(.*)\"$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(listed_value "${BASH_REMATCH[1]}" 51-78)"
+        [ "$got" = "$want" ] || fail_step "$s, but the list shows '$got'"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ is\ saved\ with\ ([A-Za-z-]+)\ \"(.*)\"$ ]]; then
         local id="${BASH_REMATCH[1]}" want="${BASH_REMATCH[3]}" column
         column="$(invoice_column "${BASH_REMATCH[2]}")" || { fail_step "no step matches: $s"; return; }
         field_is invoices.dat "$id" "$column" "$want"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ is\ saved\ with\ today\'s\ date$ ]]; then
         field_is invoices.dat "${BASH_REMATCH[1]}" 2 "$(date +%F)"
+    elif [[ "$s" =~ ^invoice\ ([0-9]+)\ has\ ([0-9]+)\ fields$ ]]; then
+        local want="${BASH_REMATCH[2]}" got
+        got="$(grep "^${BASH_REMATCH[1]}|" "$work/data/invoices.dat" | awk -F'|' '{ print NF }')"
+        [ "$got" = "$want" ] || fail_step "$s, but it has ${got:-no} fields"
+    elif [[ "$s" =~ ^record\ ([0-9]+)\ of\ ([a-z_]+\.dat)\ is\ unchanged$ ]]; then
+        local id="${BASH_REMATCH[1]}" file="${BASH_REMATCH[2]}" before after
+        before="$(grep "^$id|" "$start_data/data/$file")"
+        after="$(grep "^$id|" "$work/data/$file")"
+        [ -n "$before" ] && [ "$before" = "$after" ] || fail_step "$s, but it is now: $after"
     elif [[ "$s" =~ ^invoice\ ([0-9]+)\ does\ not\ exist$ ]]; then
         ! grep -q "^${BASH_REMATCH[1]}|" "$work/data/invoices.dat" || fail_step "invoice exists"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ holds\ ([0-9]+)\ records$ ]]; then
@@ -418,6 +458,11 @@ then_step() {
         grep -F -q -- "${BASH_REMATCH[2]}" "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ does\ not\ contain\ \"(.*)\"$ ]]; then
         ! grep -F -q -- "${BASH_REMATCH[2]}" "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
+    elif [[ "$s" =~ ^only\ record\ ([0-9]+)\ of\ ([a-z_]+\.dat)\ has\ changed$ ]]; then
+        local id="${BASH_REMATCH[1]}" file="${BASH_REMATCH[2]}"
+        ! diff -q "$start_data/data/$file" "$work/data/$file" > /dev/null || fail_step "$file did not change"
+        diff <(grep -v "^$id|" "$start_data/data/$file") <(grep -v "^$id|" "$work/data/$file") > /dev/null \
+            || fail_step "another record in $file changed"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ has\ no\ CRLF\ line\ endings$ ]]; then
         ! grep -q $'\r' "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ has\ a\ duplicate\ id\ ([0-9]+)$ ]]; then
