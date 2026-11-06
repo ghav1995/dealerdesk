@@ -8,7 +8,7 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 - [x] 1.2 Archive `map-current-behaviour` with `openspec archive map-current-behaviour --yes`, and verify the main specs hold all 180 scenarios, `make test` passes, and `openspec validate add-fleet-discount --strict` no longer says archive would refuse this delta.
 - [x] 1.3 Commit the planning artifacts on `feature/fleet-discount`, and verify `openspec validate --all --strict` and `make test` pass.
 - [x] 1.4 Bump the version to v2.7 in `app/src/screen.c` and the README title as its own commit, and verify `make version` prints v2.7 and `make test` passes.
-- [ ] 1.5 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
+- [x] 1.5 Push the branch and open a pull request into `master` on `ghav1995/dealerdesk`, and verify its base is the fork's `master` and CI passes, including the version check.
 
 ## 2. Fix BUG-002: blank customer details
 
@@ -55,7 +55,7 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 - [x] 8.1 Verify rollback by building the v2.6 code and running it on data files written by this version, confirming the results in the design's Data compatibility table, including the loss of the fleet line after v2.6 saves, and record the output in `docs/fleet-discount.md`.
 - [x] 8.2 Verify the ticket's acceptance criteria: only `expected/customers.txt` differs from `master` in the baseline, its diff contains only the menu line and the prompt, and `app/data` and the fixtures are unchanged.
 - [x] 8.3 Verify every commit builds and passes from a clean tree, and `make test` and `openspec validate --all --strict` pass.
-- [ ] 8.4 Verify CI passes on the pull request and `make coverage` shows every pending scenario has a test.
+- [x] 8.4 Verify CI passes on the pull request and `make coverage` shows every pending scenario has a test.
 
 ## Workflow follow-up
 
