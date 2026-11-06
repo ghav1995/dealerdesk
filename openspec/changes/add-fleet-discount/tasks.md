@@ -18,8 +18,8 @@ Every task is one small commit that builds and passes `make test`. Where a task 
 
 ## 3. Mark customers as fleet
 
-- [ ] 3.1 Write tests for `Retail customer marked as fleet`, `Marking an unknown customer`, `Fleet customer in the list`, `Fleet customer returned to retail`, `Fleet status after a restart`, `Marking a customer changes only that record`, and the changed navigation scenarios, and see them fail.
-- [ ] 3.2 Add the Customers menu option, the marking screen and the Fleet label in the list, re-record only `expected/customers.txt`, and verify its diff contains only the new menu line and the other five baselines are unchanged.
+- [x] 3.1 Write tests for `Retail customer marked as fleet`, `Marking an unknown customer`, `Fleet customer in the list`, `Fleet customer returned to retail`, `Fleet status after a restart`, `Marking a customer changes only that record`, and the changed navigation scenarios, and see them fail.
+- [x] 3.2 Add the Customers menu option, the marking screen and the Fleet label in the list, re-record only `expected/customers.txt`, and verify its diff contains only the new menu line and the other five baselines are unchanged.
 - [ ] 3.3 Write the test `Trade customer refused` and see it fail, then refuse trade customers on the marking screen, and verify the data files stay unchanged.
 - [ ] 3.4 Capture the print of a Trade customer being refused from the real app, to use in group 7.
 

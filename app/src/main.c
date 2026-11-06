@@ -208,11 +208,20 @@ static void stock_menu(void)
 
 /* -------------------------------------------------------- CUSTOMERS */
 
+static const char *type_txt(char type)
+{
+    if (type == 'T')
+        return "Trade";
+    if (type == 'F')
+        return "Fleet";
+    return "Retail";
+}
+
 static void print_cust_row(CUSTOMER *c)
 {
     printf("  %-5d %-26.26s %-14s %-28.28s %s\n",
            c->id, c->name, c->phone, c->email,
-           c->type == 'T' ? "Trade" : "Retail");
+           type_txt(c->type));
 }
 
 static void list_customers(void)
@@ -275,6 +284,26 @@ static void find_customer(void)
     pause_enter();
 }
 
+static void mark_fleet(void)
+{
+    CUSTOMER *c;
+
+    header("Fleet Customer");
+    c = find_cust(read_int("  Customer ID : "));
+    if (!c) {
+        printf("\n  Customer not found.\n");
+    } else if (c->type == 'F') {
+        c->type = 'R';
+        save_customers();
+        printf("\n  Customer %d is no longer a fleet customer.\n", c->id);
+    } else {
+        c->type = 'F';
+        save_customers();
+        printf("\n  Customer %d is now a fleet customer.\n", c->id);
+    }
+    pause_enter();
+}
+
 static void customer_menu(void)
 {
     int opt;
@@ -284,12 +313,14 @@ static void customer_menu(void)
         printf("  1. List customers\n");
         printf("  2. Add customer\n");
         printf("  3. Find customer\n");
+        printf("  4. Mark / unmark fleet customer\n");
         printf("  0. Back\n\n");
         opt = read_int("  Option: ");
         switch (opt) {
         case 1: list_customers(); break;
         case 2: add_customer(); break;
         case 3: find_customer(); break;
+        case 4: mark_fleet(); break;
         case 0: return;
         default:
             printf("  Invalid option\n");

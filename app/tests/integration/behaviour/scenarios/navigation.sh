@@ -28,6 +28,7 @@ Scenario "Customers menu options"
   Then  "the screen shows \"1. List customers\""
   And   "the screen shows \"2. Add customer\""
   And   "the screen shows \"3. Find customer\""
+  And   "the screen shows \"4. Mark / unmark fleet customer\""
   And   "the screen shows \"0. Back\""
 
 Scenario "Invoices menu options"
@@ -68,7 +69,7 @@ Scenario "Unknown option on the stock menu"
 
 Scenario "Unknown option on the customers menu"
   Given "the sample showroom data"
-  When  "I type \"4\" on the customers menu"
+  When  "I type \"5\" on the customers menu"
   Then  "the screen shows \"Invalid option\""
 
 Scenario "Unknown option on the invoices menu"

@@ -135,6 +135,11 @@ Scenario "Blank lines and comments are skipped on load"
   When  "I list customers"
   Then  "the screen shows \"8 customer(s)\""
 
+Scenario "Marking a customer changes only that record"
+  Given "the sample showroom data"
+  When  "I mark customer 2008 as a fleet customer"
+  Then  "only record 2008 of customers.dat has changed"
+
 Scenario "Known bug: BUG-001 blank make loses the price"
   Given "the sample showroom data"
   And   "I add a vehicle with plate \"ZZ2\" and make \"\" and list price \"2000.00\""

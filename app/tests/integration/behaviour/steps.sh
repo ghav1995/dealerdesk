@@ -283,6 +283,8 @@ action_step() {
         session 1 5 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ reserve\ or\ release\ vehicle\ ([0-9]+)$ ]]; then
         session 1 6 "${BASH_REMATCH[1]}"
+    elif [[ "$s" =~ ^I\ mark\ customer\ ([0-9]+)\ as\ a\ fleet\ customer$ ]]; then
+        session 2 4 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ try\ to\ quote\ vehicle\ ([0-9a-z]+)$ ]]; then
         session 3 "${BASH_REMATCH[1]}"
     elif [[ "$s" =~ ^I\ try\ to\ quote\ vehicle\ ([0-9a-z]+)\ for\ customer\ ([0-9a-z]+)$ ]]; then
@@ -431,6 +433,11 @@ then_step() {
         grep -F -q -- "${BASH_REMATCH[2]}" "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ does\ not\ contain\ \"(.*)\"$ ]]; then
         ! grep -F -q -- "${BASH_REMATCH[2]}" "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
+    elif [[ "$s" =~ ^only\ record\ ([0-9]+)\ of\ ([a-z_]+\.dat)\ has\ changed$ ]]; then
+        local id="${BASH_REMATCH[1]}" file="${BASH_REMATCH[2]}"
+        ! diff -q "$start_data/data/$file" "$work/data/$file" > /dev/null || fail_step "$file did not change"
+        diff <(grep -v "^$id|" "$start_data/data/$file") <(grep -v "^$id|" "$work/data/$file") > /dev/null \
+            || fail_step "another record in $file changed"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ has\ no\ CRLF\ line\ endings$ ]]; then
         ! grep -q $'\r' "$work/data/${BASH_REMATCH[1]}" || fail_step "$s"
     elif [[ "$s" =~ ^([a-z_]+\.dat)\ has\ a\ duplicate\ id\ ([0-9]+)$ ]]; then
