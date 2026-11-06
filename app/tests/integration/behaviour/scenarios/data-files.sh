@@ -152,6 +152,12 @@ Scenario "Invoice with no fleet discount keeps eleven fields"
   When  "I sell vehicle 1002 to customer 2001"
   Then  "invoice 50233 has 11 fields"
 
+Scenario "Invoice from an earlier version"
+  Given "the sample showroom data"
+  When  "I view invoice 50231"
+  Then  "there is no fleet discount line"
+  And   "the total is 14809.60"
+
 Scenario "Earlier invoices are unchanged by a fleet sale"
   Given "the sample showroom data"
   When  "I mark customer 2008 as a fleet customer"

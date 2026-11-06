@@ -474,6 +474,7 @@ static void list_invoices(void)
 static void view_invoice(void)
 {
     int no, i;
+    double other;
     INVOICE *p = NULL;
     VEHICLE *v;
     CUSTOMER *c;
@@ -496,7 +497,14 @@ static void view_invoice(void)
     printf("  Vehicle  : %s %s %s\n", v ? v->plate : "?", v ? v->make : "", v ? v->model : "");
     printf("  ----------------------------------------------\n");
     printf("  List price               %12.2f\n", p->list);
-    printf("  Discounts                %12.2f\n", -p->disc);
+    if (p->fleet_disc > 0) {
+        printf("  Fleet discount           %12.2f\n", -p->fleet_disc);
+        other = rnd2(p->disc - p->fleet_disc);
+        if (other > 0)
+            printf("  Discounts                %12.2f\n", -other);
+    } else {
+        printf("  Discounts                %12.2f\n", -p->disc);
+    }
     printf("  Net price                %12.2f\n", p->net);
     printf("  Fees                     %12.2f\n", p->fees);
     printf("  VAT                      %12.2f\n", p->vat);
